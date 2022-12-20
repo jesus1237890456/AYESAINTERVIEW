@@ -1,0 +1,8 @@
+
+POST  http://localhost:3000/auth/refresh
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBM1NBVEVMIiwidXNlcl9pZCI6MSwiYnVyZWF1X2lkIjoxLCJyb2xfaWQiOjEsImppdCI6NiwiaWF0IjoxNjcxMTE2MjkxLCJleHAiOjE2NzEyMDI2OTF9.aULP1Zgckv_JcH2na8aVr4E8mQ1fSvhzMtS-99vSakg"
+}
+###

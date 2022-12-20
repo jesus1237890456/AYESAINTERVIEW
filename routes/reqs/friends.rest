@@ -1,0 +1,10 @@
+###
+POST http://localhost:3000/friends
+Content-Type: application/json
+
+{
+    "userId": 2,
+    "friendId": 1
+}
+###
+GET http://localhost:3000/friends

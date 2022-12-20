@@ -1,0 +1,30 @@
+const sequelize = new require("./db");
+const {DataTypes} = require('sequelize');
+const User = sequelize.define(
+    "users",
+    {
+        refreshtoken_id: {
+            type: DataTypes.NUMBER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        user_id: {
+            type: DataTypes.NUMBER,
+            allowNull: false,
+            primaryKey: true,
+        },
+        refresh_token: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true
+        }
+    }, 
+    {
+        timestamps: false,
+        tableName: "refresh_token"
+    //otras opciones de modelo
+    }
+);
+
+module.exports = User;

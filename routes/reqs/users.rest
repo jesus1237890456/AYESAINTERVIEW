@@ -1,0 +1,29 @@
+
+
+
+get http://localhost:3000/users/1
+###
+
+
+get http://localhost:3000/users/user/j.cueto@a3satel.com
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdlIiOiJBM1NBVEVMIiwidXNlcl9pZCI6NCwiYnVyZWF1X2lkIjoxLCJyb2xfaWQiOjEsImlhdCI6MTY3MDkzNzkzNCwiZXhwIjoxNjcwOTM3OTk0fQ.TMMso97pU2gahfUuiPWgibT1LyAvQeILPfFP3k0le7o
+###
+
+POST http://localhost:3000/users/register
+Content-Type: application/json
+
+{
+    "email": "jesuscuetogonzalez@gmail.com",
+    "password": "pokemons"
+}
+###
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "user_email": "d.fernandez@a3satel.com",
+    "user_password": "A3satel2022*"
+}
+###
+POST  http://localhost:3000/auth/logout

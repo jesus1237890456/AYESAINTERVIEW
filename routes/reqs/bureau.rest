@@ -1,0 +1,5 @@
+
+get http://localhost:3000/bureau/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBM1NBVEVMIiwidXNlcl9pZCI6NCwiYnVyZWF1X2lkIjoxLCJyb2xfaWQiOjEsImlhdCI6MTY3MDk0ODkxOCwiZXhwIjoxNjcwOTQ4OTc4fQ.521-8GKIX4WWGpi1BqYWhOwHrbqIBHR4wt27W3W-0XE
+###

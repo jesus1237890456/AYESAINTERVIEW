@@ -1,0 +1,10 @@
+GET http://localhost:3000/posts
+
+###
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "content": "Mi primer post",
+    "userId": 2
+}
