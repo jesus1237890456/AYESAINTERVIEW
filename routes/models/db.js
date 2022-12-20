@@ -1,6 +1,8 @@
+import localDatabase from "../../ENV";
+
 const {Sequelize} = require("sequelize");
 
-const sequelize = new Sequelize("afilia3", "root", "", {
+const sequelize = new Sequelize(localDatabase.database, localDatabase.user, localDatabase.password, {
     host: "localhost",
     dialect: "mysql",
 });
