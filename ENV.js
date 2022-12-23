@@ -1,6 +1,6 @@
 const localDatabase = {
     database: 'afilia3',
-    password: '',
+    password: 'Tecnico.2019',
     user: 'root'
 }
 
