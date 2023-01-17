@@ -56,7 +56,7 @@ router.post("/login", async(req, res)=>{
     }
     
     const user = await users.findOne({where: { user_email, user_password }});
-        
+    const user_id = user.user_id;
     if (!user){        
         return res.status(400).json({error: "Bad credentials" });
     }else{
@@ -78,7 +78,7 @@ router.post("/login", async(req, res)=>{
             var token = jwt.sign({sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
             var refreshToken = jwt.sign({ sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
             console.log(refreshToken);
-            await refreshtoken.create({  user_id:user_id, refresh_token:refreshToken });
+            await refreshtoken.create({  user_id:user_id, refreshtoken_token:refreshToken });
 
         }
         this.user_id = user_id;
