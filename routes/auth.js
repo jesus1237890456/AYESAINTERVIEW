@@ -59,19 +59,35 @@ router.post("/login", async(req, res)=>{
         
     if (!user){        
         return res.status(400).json({error: "Bad credentials" });
-    }
+    }else{
+        const refresh = await refreshtoken.findOne({where: { user_id }});
+        if(refresh){
+            var jwt = require('jsonwebtoken');
+            var token = jwt.sign({sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id, jit: refresh.refreshtoken_id}, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
+            var refreshToken = jwt.sign({ sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id, jit: refresh.refreshtoken_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
+            await refreshtoken.update({
+                refresh_token: refreshToken,
+            }, 
+            {
+                where: {
+                    user_id: user_id
+                }
+            });
+        }else{
+            var jwt = require('jsonwebtoken');
+            var token = jwt.sign({sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
+            var refreshToken = jwt.sign({ sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
+            console.log(refreshToken);
+            await refreshtoken.create({  user_id:user_id, refresh_token:refreshToken });
 
-    const user_id = user.user_id;
-    
-    var token = jwt.sign({sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
-    var refreshToken = jwt.sign({ sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
-    
-    await refreshtoken.create({  user_id:user_id, refresh_token:refreshToken });  
-    
-    return res.json({
-        token: token,
-        refreshToken: refreshToken
-    });           
+        }
+        this.user_id = user_id;
+        return res.json({
+            token: token,
+            refreshToken: refreshToken
+        });
+        
+    }
     
 });
 
