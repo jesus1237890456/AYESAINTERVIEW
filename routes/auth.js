@@ -27,6 +27,16 @@ router.post('/refresh',checkauth.isRefreshTokenValid, async (req, res)=>{
     
 
 })
+router.get('/tokenvalidate',checkauth.isAccessTokenValid, async (req, res)=>{
+   
+    res.json({  })
+
+})
+router.get('/refreshtokenvalidate',checkauth.isRefreshTokenValid, async (req, res)=>{
+   
+    res.json({  })
+
+})
 router.post('/logout', async (req, res)=>{
     await refreshtoken.update({
         refresh_token: "",

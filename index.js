@@ -17,7 +17,6 @@ app.use((req, res, next) => {
     next();
   });
 // app.use('/users',users);
-app.use('/bureau', bureau);
 app.use('/auth', auth);
 // app.use('/posts',posts);
 
