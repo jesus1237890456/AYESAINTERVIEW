@@ -17,6 +17,7 @@ const User = sequelize.define(
             type: DataTypes.NUMBER,
             allowNull: false,
             primaryKey: true,
+            autoIncrement:true
         },
         //Modelos y atributos
         user_email: {

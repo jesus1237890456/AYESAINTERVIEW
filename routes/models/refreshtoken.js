@@ -7,14 +7,14 @@ const User = sequelize.define(
             type: DataTypes.NUMBER,
             allowNull: false,
             primaryKey: true,
-            autoIncrement: true,
+            autoIncrement: false,
         },
         user_id: {
             type: DataTypes.NUMBER,
             allowNull: false,
             primaryKey: true,
         },
-        refresh_token: {
+        refreshtoken_token: {
             type: DataTypes.STRING,
             allowNull: true,
             unique: true
@@ -22,7 +22,7 @@ const User = sequelize.define(
     }, 
     {
         timestamps: false,
-        tableName: "refresh_token"
+        tableName: "refreshtokens"
     //otras opciones de modelo
     }
 );
