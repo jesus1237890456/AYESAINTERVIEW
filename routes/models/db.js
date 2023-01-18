@@ -2,7 +2,7 @@
 
 const {Sequelize} = require("sequelize");
 
-const sequelize = new Sequelize('afilia3','root','A3Satel*2023', {//localDatabase.database, localDatabase.user, localDatabase.password, {
+const sequelize = new Sequelize('afilia3','root','Tecnico.2019', {//localDatabase.database, localDatabase.user, localDatabase.password, {
     host: "localhost",
     dialect: "mysql",
 });
