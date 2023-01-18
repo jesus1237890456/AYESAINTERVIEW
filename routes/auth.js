@@ -51,15 +51,16 @@ router.post("/login", async(req, res)=>{
     var jwt = require('jsonwebtoken');
     
     const {user_email, user_password} = req.body;
-    if (!user_email || !user_password){
-        return res.status(400);
+    try {
+        if (!user_email || !user_password){
+            return res.status(400);
+        }
+    } catch (error) {
+        
     }
-    
-    const user = await users.findOne({where: { user_email, user_password }});
-    const user_id = user.user_id;
-    if (!user){        
-        return res.status(400).json({error: "Bad credentials" });
-    }else{
+   
+    try {
+        const user = await users.findOne({where: { user_email, user_password }});
         const refresh = await refreshtoken.findOne({where: { user_id }});
         if(refresh){
             var jwt = require('jsonwebtoken');
@@ -80,13 +81,13 @@ router.post("/login", async(req, res)=>{
             console.log(refreshToken);
             await refreshtoken.create({  user_id:user_id, refreshtoken_token:refreshToken });
 
-        }
-        this.user_id = user_id;
+        }  this.user_id = user_id;
         return res.json({
             token: token,
             refreshToken: refreshToken
         });
-        
+    } catch (error) {
+        return res.status(400).json({error: "Bad credentials" });
     }
     
 });
