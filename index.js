@@ -18,6 +18,7 @@ app.use((req, res, next) => {
   });
 // app.use('/users',users);
 app.use('/auth', auth);
+app.use('/users', users);
 // app.use('/posts',posts);
 
 
