@@ -39,7 +39,7 @@ router.get('/refreshtokenvalidate',checkauth.isRefreshTokenValid, async (req, re
 })
 router.post('/logout', async (req, res)=>{
     await refreshtoken.update({
-        refresh_token: "",
+        refreshtoken_token: "",
     }, 
     {
         where: {
