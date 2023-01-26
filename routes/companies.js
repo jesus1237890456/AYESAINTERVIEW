@@ -6,7 +6,7 @@ const Companies = require("./models/companies");
 
 //routes
 //   /bureaus/{idBureau}/companies
-router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
+router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
     try{
     const {bureau_id} = req.params
     const companies = await Companies.findAll({where: { bureau_id }})
@@ -23,23 +23,24 @@ router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
 router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
     try{
         const {company_id}= req.params;
-        const {company_fiscal_id,company_name,company_regimen,company_address,company_postal_code,company_city,company_state,
-            company_country,company_phone,company_contact,company_email,company_status_id} = req.body
+        const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,company_postal_code,company_city,state_id,
+            country_code,company_phone,company_contact,company_email,company_status_id} = req.body
 
         const companies= await Companies.update({
         
         company_fiscal_id:company_fiscal_id,
         company_name: company_name,
-        company_regimen:company_regimen,
+        ssscheme_id:ssscheme_id,
         company_address:company_address,
         company_postal_code:company_postal_code,
         company_city:company_city,
-        company_state:company_state,
-        company_country:company_country,
+        state_id:state_id,
+        country_code:country_code,
         company_phone:company_phone,
         company_contact:company_contact,
         company_email:company_email,
-        company_status_id:company_status_id    
+        company_status_id:company_status_id,
+        company_certificate: company_certificate
         },
         {
             where:{
@@ -62,23 +63,24 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
 router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
     try{
         const {bureau_id}= req.params;
-        const {company_fiscal_id,company_name,company_regimen,company_address,company_postal_code,company_city,company_state,
-            company_country,company_phone,company_contact,company_email,company_status_id} = req.body
+        const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,company_postal_code,company_city,state_id,
+            country_code,company_phone,company_contact,company_email,company_status_id} = req.body
 
         const companies= await Companies.create({
         bureau_id: bureau_id,
         company_fiscal_id:company_fiscal_id,
         company_name: company_name,
-        company_regimen:company_regimen,
+        ssscheme_id:ssscheme_id,
         company_address:company_address,
         company_postal_code:company_postal_code,
         company_city:company_city,
-        company_state:company_state,
-        company_country:company_country,
+        state_id:state_id,
+        country_code:country_code,
         company_phone:company_phone,
         company_contact:company_contact,
         company_email:company_email,
-        company_status_id:company_status_id    
+        company_status_id:company_status_id,
+        company_certificate: company_certificate    
         }        
         )
 
