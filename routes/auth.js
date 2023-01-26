@@ -3,7 +3,7 @@ const users = require("./models/users");
 const refreshtoken = require("./models/refreshtoken");
 const router = require("express").Router();
 
-const user_id = 0;
+
 router.post('/refresh',checkauth.isRefreshTokenValid, async (req, res)=>{
     var jwt = require('jsonwebtoken');
 
@@ -39,7 +39,7 @@ router.get('/refreshtokenvalidate',checkauth.isRefreshTokenValid, async (req, re
 })
 router.post('/logout', async (req, res)=>{
     await refreshtoken.update({
-        refresh_token: "",
+        refreshtoken_token: "",
     }, 
     {
         where: {
@@ -51,15 +51,18 @@ router.post("/login", async(req, res)=>{
     var jwt = require('jsonwebtoken');
     
     const {user_email, user_password} = req.body;
-    if (!user_email || !user_password){
-        return res.status(400);
+    try {
+        if (!user_email || !user_password){
+            return res.status(400);
+        }
+    } catch (error) {
+        
     }
-    
-    const user = await users.findOne({where: { user_email, user_password }});
-    const user_id = user.user_id;
-    if (!user){        
-        return res.status(400).json({error: "Bad credentials" });
-    }else{
+    try {
+        
+ 
+        const user = await users.findOne({where: { user_email, user_password }});
+        const user_id = user.user_id;
         const refresh = await refreshtoken.findOne({where: { user_id }});
         if(refresh){
             var jwt = require('jsonwebtoken');
@@ -70,7 +73,7 @@ router.post("/login", async(req, res)=>{
             }, 
             {
                 where: {
-                    user_id: user_id
+                    user_id: user.user_id
                 }
             });
         }else{
@@ -78,17 +81,19 @@ router.post("/login", async(req, res)=>{
             var token = jwt.sign({sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
             var refreshToken = jwt.sign({ sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
             console.log(refreshToken);
-            await refreshtoken.create({  user_id:user_id, refreshtoken_token:refreshToken });
+            await refreshtoken.create({  user_id:user.user_id, refreshtoken_token:refreshToken });
 
-        }
-        this.user_id = user_id;
+        } 
         return res.json({
             token: token,
             refreshToken: refreshToken
         });
-        
-    }
-    
+        }catch (error) {
+            return res.status(400).json({
+                error: "Bad credentials",
+             });
+        }
+   
 });
 
 

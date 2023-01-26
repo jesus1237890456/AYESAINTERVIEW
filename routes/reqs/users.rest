@@ -1,7 +1,7 @@
 
 
 
-get http://localhost:3000/users/1
+get http://localhost:3000/companies/bureaus/1/companies/1
 ###
 
 
@@ -10,20 +10,31 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdlIiOiJBM1NBVEVMIiwidXNlcl9pZCI6NCwiYnVyZWF1X2lkIjoxLCJyb2xfaWQiOjEsImlhdCI6MTY3MDkzNzkzNCwiZXhwIjoxNjcwOTM3OTk0fQ.TMMso97pU2gahfUuiPWgibT1LyAvQeILPfFP3k0le7o
 ###
 
-POST http://localhost:3000/users/register
+POST http://localhost:3000/users/bureaus/1/users
 Content-Type: application/json
 
 {
-    "email": "jesuscuetogonzalez@gmail.com",
-    "password": "pokemons"
+   "bureau_id": 1, 
+    "user_full_name": "JUAN PEREZ LOPEZ", 
+    "user_phone": "954276522", 
+    "user_email": "as.perez@elcantaro.es", 
+    "user_observation": "", 
+    "rol_id": 1,
+    "user_password": "A3Satel*2023",
+    "status_id": 1
 }
 ###
-POST http://localhost:3000/auth/login
+DELETE  http://localhost:3000/users/bureaus/1/users/delete
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBM1NBVEVMIiwidXNlcl9pZCI6MSwiYnVyZWF1X2lkIjoxLCJyb2xfaWQiOjEsImppdCI6NCwiaWF0IjoxNjc0NjM5NTEwLCJleHAiOjE2NzQ3MjU5MTB9.IyNYG1nTW7-uZGibM3W2CHah4KpZpKfFxk30VEWKeXs
+
+{
+    "user_id": "6"
+}
+###
+POST  http://localhost:3000/users/bureaus/1/invitation
 Content-Type: application/json
 
 {
-    "user_email": "d.fernandez@a3satel.com",
-    "user_password": "A3satel2022*"
+    "user_id": "7"
 }
-###
-POST  http://localhost:3000/auth/logout

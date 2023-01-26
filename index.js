@@ -2,6 +2,7 @@ const express = require('express');
 const users = require('./routes/users');
 const bureau = require('./routes/bureau');
 const auth = require('./routes/auth');
+const Companies = require('./routes/companies');
 const app = express();
 const cors = require('cors');
 const Companies = require('./routes/models/companies');
@@ -19,6 +20,8 @@ app.use((req, res, next) => {
   });
 // app.use('/users',users);
 app.use('/auth', auth);
+app.use('/users', users);
+app.use('/companies', Companies);
 // app.use('/posts',posts);
 app.use('/companies', Companies);
 
