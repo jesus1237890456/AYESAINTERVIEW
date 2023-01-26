@@ -35,7 +35,7 @@
             allowNull: false
         },
         company_postal_code: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         company_city: {
