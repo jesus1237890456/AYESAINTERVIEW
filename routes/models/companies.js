@@ -42,10 +42,12 @@
             type: DataTypes.STRING,
             allowNull: false
         },
+        //
         state_id: {
             type: DataTypes.NUMBER,
             allowNull: false
         },
+        //
         country_code: {
             type: DataTypes.NUMBER,
             allowNull: false

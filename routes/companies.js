@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { verify } = require("crypto");
 const { hash } = require("./helpers/hash");
 const { default: checkauth } = require("./middelware/checkauth");
-const Companies = require("./models/companies ");
+const Companies = require("./models/companies");
 
 //routes
 //   /bureaus/{idBureau}/companies
