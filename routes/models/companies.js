@@ -25,6 +25,7 @@
              allowNull: false,
              unique: false
          },
+         //regimen
          ssscheme_id: {
              type: DataTypes.NUMBER,
              allowNull: false,

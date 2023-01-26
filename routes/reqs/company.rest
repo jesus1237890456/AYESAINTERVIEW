@@ -1,0 +1,9 @@
+{
+    "user_email": "d.fernandez@a3satel.com",
+    "user_password": "A3satel2022*"
+}
+###
+POST  http://localhost:3000/auth/logout
+
+###
+GET http://localhost:3000/companies/bureaus/1/companies

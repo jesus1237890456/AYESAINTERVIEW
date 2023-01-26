@@ -4,7 +4,8 @@ const bureau = require('./routes/bureau');
 const auth = require('./routes/auth');
 const Companies = require('./routes/companies');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
+const Companies = require('./routes/models/companies');
 
 app.use(cors())
 
@@ -22,8 +23,10 @@ app.use('/auth', auth);
 app.use('/users', users);
 app.use('/companies', Companies);
 // app.use('/posts',posts);
+app.use('/companies', Companies);
 
 
 app.listen(app.get("port"), ()=>{
     console.log("server running on port " + app.get("port"));
 });
+
