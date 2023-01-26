@@ -8,6 +8,11 @@ const User = sequelize.define(
             allowNull: false,
             primaryKey: true,
         },
+        status_id: {
+            type: DataTypes.NUMBER,
+            allowNull: false,
+            primaryKey: true,
+        },
         rol_id: {
             type: DataTypes.NUMBER,
             allowNull: false,
@@ -31,6 +36,14 @@ const User = sequelize.define(
             unique: true
         },
         user_password: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        user_phone: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        user_observation: {
             type: DataTypes.STRING,
             allowNull: false
         }
