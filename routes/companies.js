@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { verify } = require("crypto");
 const { hash } = require("./helpers/hash");
 const { default: checkauth } = require("./middelware/checkauth");
-const Companies = require("./models/companies ");
+const Companies = require("./models/companies");
 
 //routes
 //   /bureaus/{idBureau}/companies
@@ -49,7 +49,7 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
         }
         )
 
-        res.json({ "Compañia actualiza: ": companies })
+        res.json({ "Compañia actualiza: ": companies.company_name })
 
         }
         catch (error) {
@@ -94,9 +94,10 @@ router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async 
         }
 })
 //Eliminar
-router.delete('/', async (req, res)=>{try{
-    const {company_id} = req.params
-    await Companies.destroy({where: { company_id }})
+router.delete('/bureaus/:bureau_id/companies/:company_id/delete', async (req, res)=>{
+    try{
+    const {bureau_id,company_id} = req.params
+    await Companies.destroy({where: { company_id, bureau_id }})
     //res.json({ companies })
     res.json({"Compañia eliminada": company_id})
     }
