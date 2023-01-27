@@ -86,7 +86,12 @@ router.post("/login", async(req, res)=>{
         } 
         return res.json({
             token: token,
-            refreshToken: refreshToken
+            refreshToken: refreshToken,
+            user_id: user.user_id,
+            bureau_id: user.bureau_id,
+            rol_id: user.rol_id,
+            name_user: user.user_full_name
+
         });
         }catch (error) {
             return res.status(400).json({

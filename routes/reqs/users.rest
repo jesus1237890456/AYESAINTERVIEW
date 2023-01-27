@@ -1,7 +1,41 @@
 
 
+post http://localhost:3000/companies/bureaus/1/companies
+Content-Type: application/json
 
-get http://localhost:3000/companies/bureaus/1/companies/1
+{   
+        "bureau_id":1,
+        "company_fiscal_id":1,
+        "company_name": "jose",
+        "ssscheme_id":1,
+        "company_address":"company_address",
+        "company_postal_code":"1123",
+        "company_city":"company_city",
+        "state_id":12,
+        "company_phone":"company_phone",
+        "company_contact":"company_contact",
+        "company_email":"company_email",
+        "company_status_id":1,
+        "company_certificate": "company_certificate"
+}
+###
+put http://localhost:3000/companies/bureaus/1/companies
+Content-Type: application/json
+
+{
+        "company_fiscal_id":1,
+        "company_name": "jose",
+        "ssscheme_id":1,
+        "company_address":"company_address",
+        "company_postal_code":"1123",
+        "company_city":"company_city",
+        "state_id":12,
+        "company_phone":"company_phone",
+        "company_contact":"company_contact",
+        "company_email":"company_email",
+        "company_status_id":1,
+        "company_certificate": "company_certificate"
+}
 ###
 
 
@@ -24,13 +58,8 @@ Content-Type: application/json
     "status_id": 1
 }
 ###
-DELETE  http://localhost:3000/users/bureaus/1/users/delete
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBM1NBVEVMIiwidXNlcl9pZCI6MSwiYnVyZWF1X2lkIjoxLCJyb2xfaWQiOjEsImppdCI6NCwiaWF0IjoxNjc0NjM5NTEwLCJleHAiOjE2NzQ3MjU5MTB9.IyNYG1nTW7-uZGibM3W2CHah4KpZpKfFxk30VEWKeXs
+DELETE  http://localhost:3000/companies/bureaus/1/companies/1/delete
 
-{
-    "user_id": "6"
-}
 ###
 POST  http://localhost:3000/users/bureaus/1/invitation
 Content-Type: application/json

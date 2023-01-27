@@ -47,7 +47,7 @@
             allowNull: false
         },
         country_code: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         company_phone: {

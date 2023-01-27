@@ -24,7 +24,7 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
     try{
         const {company_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,company_postal_code,company_city,state_id,
-            country_code,company_phone,company_contact,company_email,company_status_id} = req.body
+            company_phone,company_contact,company_email,company_status_id} = req.body
 
         const companies= await Companies.update({
         
@@ -35,7 +35,7 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
         company_postal_code:company_postal_code,
         company_city:company_city,
         state_id:state_id,
-        country_code:country_code,
+        country_code:"ES",
         company_phone:company_phone,
         company_contact:company_contact,
         company_email:company_email,
@@ -64,7 +64,7 @@ router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async 
     try{
         const {bureau_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,company_postal_code,company_city,state_id,
-            country_code,company_phone,company_contact,company_email,company_status_id} = req.body
+            company_phone,company_contact,company_email,company_status_id} = req.body
 
         const companies= await Companies.create({
         bureau_id: bureau_id,
@@ -75,7 +75,7 @@ router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async 
         company_postal_code:company_postal_code,
         company_city:company_city,
         state_id:state_id,
-        country_code:country_code,
+        country_code:"ES",
         company_phone:company_phone,
         company_contact:company_contact,
         company_email:company_email,
