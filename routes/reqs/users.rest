@@ -6,7 +6,7 @@ Content-Type: application/json
 {   
         "bureau_id":1,
         "company_fiscal_id":1,
-        "company_name": "a",
+        "company_name": "b",
         "ssscheme_id":1,
         "company_address":"company_address",
         "postalcode_id":"1",

@@ -14,13 +14,13 @@ router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (
     }
     catch (error) {
     return res.status(500).json({
-        error: "Error Server",
+        error
      });
 }
 })
 
 //Actualizar 
-router.put('/bureaus/:bureau_id/companies/:company_id', async (req, res)=>{
+router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
    
         const {company_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
@@ -54,13 +54,13 @@ router.put('/bureaus/:bureau_id/companies/:company_id', async (req, res)=>{
         }
         catch (error) {
         return res.status(500).json({
-            error: "Error Server",
+            error
          });
         }
 })
 
 //Añadir
-router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
+router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
 
         const {bureau_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
@@ -84,7 +84,7 @@ router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async 
         }        
         )
 
-        res.json({ msg: "Compañia creada: "+ companies })
+        res.json({ msg: "Compañia creada: ", companies })
 
         }
         catch (error) {
@@ -100,11 +100,11 @@ router.delete('/bureaus/:bureau_id/companies/:company_id/delete',checkauth.isAcc
     try{
         await Companies.destroy({where: { company_id, bureau_id }})
         //res.json({ companies })
-        res.json({ msg: "Compañia eliminada" + company_id})
+        res.json({ msg: "Compañia eliminada " , company_id})
     }
     catch (error) {
         return res.status(500).json({
-            error: "Error Server",
+            error,
         });
 }
 })
