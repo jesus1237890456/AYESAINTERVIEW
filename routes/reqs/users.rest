@@ -6,12 +6,12 @@ Content-Type: application/json
 {   
         "bureau_id":1,
         "company_fiscal_id":1,
-        "company_name": "jose",
+        "company_name": "a",
         "ssscheme_id":1,
         "company_address":"company_address",
-        "company_postal_code":"1123",
+        "postalcode_id":"1",
         "company_city":"company_city",
-        "state_id":12,
+        "state_id":1,
         "company_phone":"company_phone",
         "company_contact":"company_contact",
         "company_email":"company_email",
@@ -19,7 +19,7 @@ Content-Type: application/json
         "company_certificate": "company_certificate"
 }
 ###
-put http://localhost:3000/companies/bureaus/1/companies
+put http://localhost:3000/companies/bureaus/1/companies/6
 Content-Type: application/json
 
 {
@@ -29,7 +29,7 @@ Content-Type: application/json
         "company_address":"company_address",
         "company_postal_code":"1123",
         "company_city":"company_city",
-        "state_id":12,
+        "state_id":1,
         "company_phone":"company_phone",
         "company_contact":"company_contact",
         "company_email":"company_email",
@@ -58,12 +58,12 @@ Content-Type: application/json
     "status_id": 1
 }
 ###
-DELETE  http://localhost:3000/companies/bureaus/1/companies/1/delete
+DELETE  http://localhost:3000/companies/bureaus/1/companies/6/delete
 
 ###
 POST  http://localhost:3000/users/bureaus/1/invitation
 Content-Type: application/json
 
 {
-    "user_id": "7"
+    "user_id": "3"
 }

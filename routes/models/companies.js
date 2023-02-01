@@ -34,7 +34,7 @@
             type: DataTypes.STRING,
             allowNull: false
         },
-        company_postal_code: {
+        postalcode_id: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -48,7 +48,7 @@
             allowNull: false
         },
         //
-        country_code: {
+        country_id: {
             type: DataTypes.STRING,
             allowNull: false
         },

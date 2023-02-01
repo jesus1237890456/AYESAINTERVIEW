@@ -20,22 +20,22 @@ router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (
 })
 
 //Actualizar 
-router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
-    try{
+router.put('/bureaus/:bureau_id/companies/:company_id', async (req, res)=>{
+   
         const {company_id}= req.params;
-        const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,company_postal_code,company_city,state_id,
+        const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
             company_phone,company_contact,company_email,company_status_id} = req.body
-
+    try{
         const companies= await Companies.update({
         
         company_fiscal_id:company_fiscal_id,
         company_name: company_name,
         ssscheme_id:ssscheme_id,
         company_address:company_address,
-        company_postal_code:company_postal_code,
+        postalcode_id:postalcode_id,
         company_city:company_city,
         state_id:state_id,
-        country_code:"ES",
+        country_id:1,
         company_phone:company_phone,
         company_contact:company_contact,
         company_email:company_email,
@@ -49,7 +49,7 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
         }
         )
 
-        res.json({ "Compañia actualiza: ": companies.company_name })
+        res.json({ msg:"Compañia actualizada: "+ company_name })
 
         }
         catch (error) {
@@ -61,21 +61,21 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
 
 //Añadir
 router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
-    try{
-        const {bureau_id}= req.params;
-        const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,company_postal_code,company_city,state_id,
-            company_phone,company_contact,company_email,company_status_id} = req.body
 
+        const {bureau_id}= req.params;
+        const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
+            company_phone,company_contact,company_email,company_status_id} = req.body
+     try{
         const companies= await Companies.create({
         bureau_id: bureau_id,
         company_fiscal_id:company_fiscal_id,
         company_name: company_name,
         ssscheme_id:ssscheme_id,
         company_address:company_address,
-        company_postal_code:company_postal_code,
+        postalcode_id:postalcode_id,
         company_city:company_city,
         state_id:state_id,
-        country_code:"ES",
+        country_id:1,
         company_phone:company_phone,
         company_contact:company_contact,
         company_email:company_email,
@@ -84,27 +84,28 @@ router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async 
         }        
         )
 
-        res.json({ "Compañia creada: ": companies })
+        res.json({ msg: "Compañia creada: "+ companies })
 
         }
         catch (error) {
-        return res.status(500).json({
-            error: "Error Server",
+        return res.json({
+            error
          });
         }
 })
 //Eliminar
-router.delete('/bureaus/:bureau_id/companies/:company_id/delete', async (req, res)=>{
-    try{
+router.delete('/bureaus/:bureau_id/companies/:company_id/delete',checkauth.isAccessTokenValid, async (req, res)=>{
+   
     const {bureau_id,company_id} = req.params
-    await Companies.destroy({where: { company_id, bureau_id }})
-    //res.json({ companies })
-    res.json({"Compañia eliminada": company_id})
+    try{
+        await Companies.destroy({where: { company_id, bureau_id }})
+        //res.json({ companies })
+        res.json({ msg: "Compañia eliminada" + company_id})
     }
     catch (error) {
-    return res.status(500).json({
-        error: "Error Server",
-     });
+        return res.status(500).json({
+            error: "Error Server",
+        });
 }
 })
 

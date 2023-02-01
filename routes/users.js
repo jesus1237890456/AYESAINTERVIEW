@@ -33,12 +33,17 @@ router.post('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req,
         .status(409)
         .json({error: "alredy exist an accoun with the given email"});
     }else{
-        const user = await User.create({bureau_id: bureau_id,user_full_name: user_full_name,user_phone: user_phone,
-            user_email: user_email,user_observation: user_observation,rol_id: rol_id,status_id: status_id,user_password: user_password});
-            user.user_password = "";
-        res.json({
-            user_id: user.user_id
-        });
+        try {
+            const user = await User.create({bureau_id: bureau_id,user_full_name: user_full_name,user_phone: user_phone,
+                user_email: user_email,user_observation: user_observation,rol_id: rol_id,status_id: status_id,user_password: user_password});
+                user.user_password = "";
+            res.json({
+                user_id: user.user_id
+            });
+        } catch (error) {
+            res.json({error})
+        }
+       
     }
 });
 
@@ -72,7 +77,7 @@ router.post('/bureaus/:bureau_id/users/update',checkauth.isAccessTokenValid, asy
             status_id: status_id,
             });     
     } catch (error) {
-        
+        res.json({error});
     }
    
 });
@@ -83,12 +88,17 @@ router.post('/bureaus/:bureau_id/invitation',checkauth.isAccessTokenValid, async
     const user = await User.findOne({where: { user_id, bureau_id }});
     if(user){ var jwt = require('jsonwebtoken');
     var token = jwt.sign({sub: 'A3SATEL' ,user_id: user_id, bureau_id: bureau_id, rol_id: user.rol_id }, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
-    await Invitation.create({user_id: user_id, invitation_token: token })
+    try {
+        await Invitation.create({user_id: user_id, invitation_token: token })
         res.json({
             "bureau_id": bureau_id,
             "user_id": user_id,
             "invitation_token": token
         });
+    } catch (error) {
+        res.json({error});
+    }
+    
     }else{
         return res.status(400).json({
             error: "Don't exist",
@@ -118,22 +128,31 @@ router.post("/register", async(req, res)=>{
         .status(409)
         .json({error: "alredy exist an accoun with the given email"});
     }
-    const user = await User.create({email, password: hash(password) })
-    res.json({
-        user, attributes: {exclude:['password']}
-    });
+    try {
+        const user = await User.create({email, password: hash(password) })
+        res.json({
+            user, attributes: {exclude:['password']}
+        });
+    } catch (error) {
+        res.json({error});
+    }
+ 
 });
 router.delete("/bureaus/:bureau_id/users/delete",checkauth.isAccessTokenValid, async(req, res)=>{
     const {bureau_id} = req.params;
     const {user_id} = req.body;
-    try {
+   
         const user = await User.findOne({where: { user_id, bureau_id }});
         if (user){
             if(user.status_id === 1){  
-                await User.destroy({ where:{user_id, bureau_id }})
-                res.status(204).json({
-                    msg: "user deleted"
-                });
+                try {
+                    await User.destroy({ where:{user_id, bureau_id }})
+                    res.status(204).json({
+                        msg: "user deleted"
+                    });
+                } catch (error) {
+                    res.json({error});
+                }
             }else{
                 res.json({
                     msg: "status don't coincident"
@@ -145,9 +164,7 @@ router.delete("/bureaus/:bureau_id/users/delete",checkauth.isAccessTokenValid, a
                 msg: "user don't exist"
             });
         }
-    } catch (error) {
-        
-    }
+   
    
   
 });
