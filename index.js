@@ -5,6 +5,9 @@ const auth = require('./routes/auth');
 const Companies = require('./routes/companies');
 const app = express();
 const cors = require('cors');
+const PostalCodes = require('./routes/postalcode');
+const ContributionAccountCodes = require('./routes/contributionaccount');
+const Agreements = require('./routes/agreements');
 
 app.use(cors())
 
@@ -21,8 +24,10 @@ app.use((req, res, next) => {
 app.use('/auth', auth);
 app.use('/users', users);
 app.use('/companies', Companies);
+app.use('/postalcode', PostalCodes);
+app.use('/companies', ContributionAccountCodes);
+app.use('/companies', Agreements);
 // app.use('/posts',posts);
-app.use('/companies', Companies);
 
 
 app.listen(app.get("port"), ()=>{
