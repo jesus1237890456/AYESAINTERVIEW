@@ -49,9 +49,9 @@ Content-Type: application/json
 
 {
    "bureau_id": 1, 
-    "user_full_name": "JUAN PEREZ LOPEZ", 
+    "user_full_name": "PEREZ LOPEZ", 
     "user_phone": "954276522", 
-    "user_email": "as.perez@elcantaro.es", 
+    "user_email": "a.perez@elcantaro.es", 
     "user_observation": "", 
     "rol_id": 1,
     "user_password": "A3Satel*2023",
@@ -66,4 +66,12 @@ Content-Type: application/json
 
 {
     "user_id": "3"
+}
+###
+POST  http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "user_email": "a.perez@elcantaro.es", 
+    "user_password": "A3Satel*2023"
 }
