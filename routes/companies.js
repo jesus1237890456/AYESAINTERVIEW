@@ -94,7 +94,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
         }
 })
 //Eliminar
-router.delete('/bureaus/:bureau_id/companies/:company_id/delete',checkauth.isAccessTokenValid, async (req, res)=>{
+router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
    
     const {bureau_id,company_id} = req.params
     try{

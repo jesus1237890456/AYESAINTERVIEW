@@ -47,7 +47,7 @@ router.post('/bureaus/:bureau_id/users', async(req, res)=>{
     }
 });
 
-router.put('/bureaus/:bureau_id/users/update',checkauth.isAccessTokenValid, async(req, res)=>{
+router.put('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req, res)=>{
     const {user_id,bureau_id,user_full_name,user_phone,user_email,user_observation,rol_id,status_id,user_password} = req.body
     try {
         const user = await User.update({
@@ -138,7 +138,7 @@ router.post("/register", async(req, res)=>{
     }
  
 });
-router.delete("/bureaus/:bureau_id/users/delete",checkauth.isAccessTokenValid, async(req, res)=>{
+router.delete("/bureaus/:bureau_id/users",checkauth.isAccessTokenValid, async(req, res)=>{
     const {bureau_id} = req.params;
     const {user_id} = req.body;
    
