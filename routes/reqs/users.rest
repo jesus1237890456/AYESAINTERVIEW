@@ -19,6 +19,11 @@ Content-Type: application/json
         "company_certificate": "company_certificate"
 }
 ###
+
+get http://localhost:3000/companies/bureaus/1/companies
+Content-Type: application/json
+
+###
 put http://localhost:3000/companies/bureaus/1/companies/6
 Content-Type: application/json
 
@@ -51,7 +56,7 @@ Content-Type: application/json
    "bureau_id": 1, 
     "user_full_name": "PEREZ LOPEZ", 
     "user_phone": "954276522", 
-    "user_email": "a.perez@elcantaro.es", 
+    "user_email": "ao.perez@elcantaro.es", 
     "user_observation": "", 
     "rol_id": 1,
     "user_password": "A3Satel*2023",
@@ -74,4 +79,12 @@ Content-Type: application/json
 {
     "user_email": "a.perez@elcantaro.es", 
     "user_password": "A3Satel*2023"
+}
+###
+POST  http://localhost:3000/contributionaccountcodes/bureaus/1/companies/2/contributionaccount
+Content-Type: application/json
+
+{
+    "contributionaccountcode_id":6,
+    "contributionaccountcode_code":1
 }
