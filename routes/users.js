@@ -26,7 +26,8 @@ router.get('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async (req,
 })
 
 router.post('/bureaus/:bureau_id/users', async(req, res)=>{
-    const {bureau_id,user_full_name,user_phone,user_email,user_observation,rol_id,status_id,user_password} = req.body
+    const {bureau_id,user_full_name,user_phone,user_email,user_observation,rol_id,status_id} = req.body
+    const user_password = "invitado"
     const exist = await User.findOne({where: { user_email }});
     if (exist){
         return res
@@ -36,7 +37,6 @@ router.post('/bureaus/:bureau_id/users', async(req, res)=>{
         try {
             const user = await User.create({bureau_id: bureau_id,user_full_name: user_full_name,user_phone: user_phone,
                 user_email: user_email,user_observation: user_observation,rol_id: rol_id,status_id: status_id,user_password: user_password});
-                user.user_password = "";
             res.json({
                 user_id: user.user_id
             });

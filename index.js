@@ -8,6 +8,7 @@ const cors = require('cors');
 const PostalCodes = require('./routes/postalcode');
 const ContributionAccountCodes = require('./routes/contributionaccount');
 const Agreements = require('./routes/agreements');
+const mailcontroller = require('./routes/mail.Controller');
 
 app.use(cors())
 
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
   });
 // app.use('/users',users);
 app.use('/auth', auth);
+app.use('/mail', mailcontroller);
 app.use('/users', users);
 app.use('/companies', Companies);
 app.use('/postalcode', PostalCodes);

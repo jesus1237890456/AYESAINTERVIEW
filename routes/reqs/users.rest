@@ -24,6 +24,16 @@ get http://localhost:3000/companies/bureaus/1/companies
 Content-Type: application/json
 
 ###
+
+get http://localhost:3000/mail
+Content-Type: application/json
+
+{
+    "mail":"j.cueto@a3satel.com",
+    "password":"Pokemons12*"
+}
+
+###
 put http://localhost:3000/companies/bureaus/1/companies/6
 Content-Type: application/json
 

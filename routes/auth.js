@@ -20,7 +20,6 @@ router.post('/refresh',checkauth.isRefreshTokenValid, async (req, res)=>{
                 user_id: decoded.user_id
             }
         });
-        this.user_id = decoded.user_id;
         return res.json({
             token: token,
             refreshToken: refreshToken
@@ -45,13 +44,14 @@ router.get('/refreshtokenvalidate',checkauth.isRefreshTokenValid, async (req, re
 
 })
 router.post('/logout', async (req, res)=>{
+    const {user_id} = req.body;
     try {
         await refreshtoken.update({
             refreshtoken_token: "",
         }, 
         {
             where: {
-                user_id: this.user_id
+                user_id: user_id
             }
         });
     } catch (error) {
@@ -65,15 +65,11 @@ router.post("/login", async(req, res)=>{
     var jwt = require('jsonwebtoken');
     
     const {user_email, user_password} = req.body;
-    try {
+
         if (!user_email || !user_password){
             return res.status(400);
-        }
-    } catch (error) {
-        return res.json({
-            error
-         });
-    }
+        }else{
+    
         const user = await users.findOne({where: { user_email, user_password }});
         const user_id = user.user_id;
         const refresh = await refreshtoken.findOne({where: { user_id }});
@@ -130,6 +126,7 @@ router.post("/login", async(req, res)=>{
             }
     
         }
+    }
 });
 
 
