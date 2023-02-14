@@ -69,7 +69,7 @@ router.post("/login", async(req, res)=>{
         if (!user_email || !user_password){
             return res.status(400);
         }else{
-    
+    try {
         const user = await users.findOne({where: { user_email, user_password }});
         const user_id = user.user_id;
         const refresh = await refreshtoken.findOne({where: { user_id }});
@@ -126,6 +126,10 @@ router.post("/login", async(req, res)=>{
             }
     
         }
+    } catch (error) {
+        res.json({error});
+    }
+       
     }
 });
 
