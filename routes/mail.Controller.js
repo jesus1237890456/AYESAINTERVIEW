@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
     },
     logger: true
 });
-router.get('/', async (req, res)=>{
+router.post('/',checkauth.isAccessTokenValid, async (req, res)=>{
        
         const correousuario = req.body.mail;
         const password = req.body.password;
@@ -42,7 +42,7 @@ router.get('/', async (req, res)=>{
         
        
    })
-   router.get('/password', async (req, res)=>{
+   router.post('/activation',checkauth.isAccessTokenValid, async (req, res)=>{
        
     const {correousuario,password,user_full_name } = req.body;
     try {
