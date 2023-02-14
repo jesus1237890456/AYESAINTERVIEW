@@ -29,7 +29,7 @@ post http://localhost:3000/mail
 Content-Type: application/json
 
 {
-    "mail":"j.cueto@a3satel.com",
+    "email":"j.cueto@a3satel.com",
     "password":"Pokemons12*"
 }
 
@@ -39,7 +39,7 @@ post http://localhost:3000/mail/activation
 Content-Type: application/json
 
 {
-    "mail":"j.cueto@a3satel.com",
+    "email":"j.cueto@a3satel.com",
     "password":"Pokemons12*",
     "user_full_name":"jesus cueto gonzalez"
 }

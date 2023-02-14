@@ -5,7 +5,7 @@ const User = require("./models/users");
 const Invitation = require("./models/invitations")
 
 
-router.post('/', async (req, res)=>{
+router.post('/',checkauth.isAccessTokenValid, async (req, res)=>{
     const transporter = nodemailer.createTransport({
         host: "smtp.office365.com",
         port: 587,
@@ -17,7 +17,7 @@ router.post('/', async (req, res)=>{
         },
         logger: true
     });
-    const correousuario = req.body.mail;
+    const correousuario = req.body.email;
     const password = req.body.password;
   
         try {
@@ -41,7 +41,7 @@ router.post('/', async (req, res)=>{
         
        
    })
-   router.post('/activation', async (req, res)=>{
+   router.post('/activation',checkauth.isAccessTokenValid, async (req, res)=>{
     console.log("1");
     const transporter = nodemailer.createTransport({
         host: "smtp.office365.com",
@@ -55,7 +55,7 @@ router.post('/', async (req, res)=>{
         logger: true
     });
     console.log("2");
-    const correousuario = req.body.mail;
+    const correousuario = req.body.email;
     const password = req.body.password;
     const {user_full_name } = req.body;
     const URL = "http//localhost:4200";
