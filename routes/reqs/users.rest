@@ -25,7 +25,7 @@ Content-Type: application/json
 
 ###
 
-get http://localhost:3000/mail
+post http://localhost:3000/mail
 Content-Type: application/json
 
 {
@@ -33,6 +33,16 @@ Content-Type: application/json
     "password":"Pokemons12*"
 }
 
+###
+
+post http://localhost:3000/mail/activation
+Content-Type: application/json
+
+{
+    "mail":"j.cueto@a3satel.com",
+    "password":"Pokemons12*",
+    "user_full_name":"jesus cueto gonzalez"
+}
 ###
 put http://localhost:3000/companies/bureaus/1/companies/6
 Content-Type: application/json
@@ -80,7 +90,7 @@ POST  http://localhost:3000/users/bureaus/1/invitation
 Content-Type: application/json
 
 {
-    "user_id": "3"
+    "user_id": "6"
 }
 ###
 POST  http://localhost:3000/auth/login
