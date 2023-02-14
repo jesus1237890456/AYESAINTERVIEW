@@ -5,7 +5,7 @@ const User = require("./models/users");
 const Invitation = require("./models/invitations")
 
 
-router.post('/',checkauth.isAccessTokenValid, async (req, res)=>{
+router.post('/', async (req, res)=>{
     const transporter = nodemailer.createTransport({
         host: "smtp.office365.com",
         port: 587,
@@ -24,7 +24,8 @@ router.post('/',checkauth.isAccessTokenValid, async (req, res)=>{
             const user = await User.findOne({ where: {user_email: correousuario}});
         console.log(user)
          const invitation = await Invitation.findOne({where:{user_id: user.user_id}});
-         const URL = "http//localhost:4200/activate/"+correousuario+"/"+user.user_full_name+"/"+invitation.invitation_code+"";
+         console.log(invitation.invitation_token);
+         const URL = "http//localhost:4200/activate/"+correousuario+"/"+user.user_full_name+"/"+invitation.invitation_token+"";
             const alta = await transporter.sendMail({
                 from: '"A3Satel" <j.cueto@a3satel.com>',
                 to: correousuario,
