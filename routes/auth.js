@@ -9,7 +9,7 @@ router.post('/refresh',checkauth.isRefreshTokenValid, async (req, res)=>{
 
     var decoded = jwt.verify(req.body.refreshToken, 'Cl4vePr1vada2022*');
     
-    var token = jwt.sign({sub: 'A3SATEL' ,user_id: decoded.user_id, bureau_id: decoded.bureau_id, rol_id: decoded.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
+    const token = jwt.sign({sub: 'A3SATEL' ,user_id: decoded.user_id, bureau_id: decoded.bureau_id, rol_id: decoded.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
     var refreshToken = jwt.sign({ sub: 'A3SATEL' ,user_id: decoded.user_id, bureau_id: decoded.bureau_id, rol_id: decoded.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
     try {
         await refreshtoken.update({
