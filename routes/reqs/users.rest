@@ -74,16 +74,21 @@ Content-Type: application/json
 
 {
    "bureau_id": 1, 
-    "user_full_name": "PEREZ LOPEZ", 
+    "user_full_name": "jj LOPEZ", 
     "user_phone": "954276522", 
-    "user_email": "ao.perez@elcantaro.es", 
+    "user_email": "j.cueto@a3satel.com", 
     "user_observation": "", 
     "rol_id": 1,
-    "user_password": "A3Satel*2023",
     "status_id": 1
 }
 ###
-DELETE  http://localhost:3000/companies/bureaus/1/companies/6/delete
+DELETE  http://localhost:3000/users/bureaus/1/users
+Content-Type: application/json
+
+{
+    "user_id": "18"
+}
+###
 
 ###
 POST  http://localhost:3000/users/bureaus/1/invitation
