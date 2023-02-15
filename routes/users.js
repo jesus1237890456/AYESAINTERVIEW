@@ -53,7 +53,7 @@ router.post('/bureaus/:bureau_id/users', async(req, res)=>{
                 logger: true
             });
                 var jwt = require('jsonwebtoken');
-                var token = jwt.sign({sub: 'A3SATEL' ,user_id: usercreate.user_id, bureau_id: bureau_id, rol_id: usercreate.rol_id }, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
+                const token = jwt.sign({sub: 'A3SATEL' ,user_id: usercreate.user_id, bureau_id: bureau_id, rol_id: usercreate.rol_id }, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
                 console.log("1");                 
                         try { 
                             try {
