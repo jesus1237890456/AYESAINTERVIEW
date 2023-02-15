@@ -266,7 +266,7 @@ router.post("/register", async(req, res)=>{
     }
  
 });
-router.delete("/bureaus/:bureau_id/users",,checkauth.isAccessTokenValid async(req, res)=>{
+router.delete("/bureaus/:bureau_id/users",checkauth.isAccessTokenValid ,async(req, res)=>{
     const {bureau_id} = req.params;
     const {user_id} = req.body;
    
