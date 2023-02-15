@@ -17,7 +17,7 @@ router.get('/:postalcode_code',checkauth.isAccessTokenValid, async (req, res)=>{
             country_name: countries.country_name
         })
     } catch (error) {
-        res.json({
+        res.status(400).json({
             error
         })
     }

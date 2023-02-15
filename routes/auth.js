@@ -25,7 +25,7 @@ router.post('/refresh',checkauth.isRefreshTokenValid, async (req, res)=>{
             refreshToken: refreshToken
         });
     } catch (error) {
-        return res.json({
+        return res.status(400).json({
             error
          });
     }    
@@ -55,7 +55,7 @@ router.post('/logout', async (req, res)=>{
             }
         });
     } catch (error) {
-        return res.json({
+        return res.status(400).json({
             error
          });
     }    
@@ -96,7 +96,7 @@ router.post("/login", async(req, res)=>{
 
             });
             }catch (error) {
-                return res.json({
+                return res.status(400).json({
                     error
                 });
             }
@@ -120,14 +120,14 @@ router.post("/login", async(req, res)=>{
 
                 });
             }catch (error) {
-                return res.json({
+                return res.status(400).json({
                     error
                 });
             }
     
         }
     } catch (error) {
-        res.json({error});
+        return res.status(400).json({error});
     }
        
     }

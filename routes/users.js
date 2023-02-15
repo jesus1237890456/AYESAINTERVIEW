@@ -41,7 +41,7 @@ router.post('/bureaus/:bureau_id/users', async(req, res)=>{
                 user_id: user.user_id
             });
         } catch (error) {
-            res.json({error})
+            res.status(400).json({error})
         }
        
     }
@@ -77,7 +77,7 @@ router.put('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req, 
             status_id: status_id,
             });     
     } catch (error) {
-        res.json({error});
+        res.status(400).json({error});
     }
    
 });
@@ -134,7 +134,7 @@ router.post("/register", async(req, res)=>{
             user, attributes: {exclude:['password']}
         });
     } catch (error) {
-        res.json({error});
+        res.status(400).json({error});
     }
  
 });
@@ -151,16 +151,16 @@ router.delete("/bureaus/:bureau_id/users",checkauth.isAccessTokenValid, async(re
                         msg: "user deleted"
                     });
                 } catch (error) {
-                    res.json({error});
+                    res.status(400).json({error});
                 }
             }else{
-                res.json({
+                res.status(400).json({
                     msg: "status don't coincident"
                 });
             }
            
         }else{
-            res.json({
+            res.status(400).json({
                 msg: "user don't exist"
             });
         }

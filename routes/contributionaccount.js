@@ -8,7 +8,7 @@ router.get('/bureaus/:bureau_id/companies/:company_id/contributionaccount',check
       const contributionaccount = await ContributionAccountCodes.findOne({where: {company_id}})
       res.json({ contributionaccount })
    } catch (error) {
-      res.json({error})
+      res.status(400).json({error})
       
    }
   
@@ -22,7 +22,7 @@ router.post('/bureaus/:bureau_id/companies/:company_id/contributionaccount',chec
       const ccc = await ContributionAccountCodes.create({company_id: company_id, contributionaccountcode_id: contributionaccountcode_id, contributionaccountcode_code: contributionaccountcode_code })
       res.json({ msg: "Compañia creada: ", ccc })
    } catch (error) {
-      return res.json({
+      return res.status(400).json({
          error
       });
    }

@@ -26,6 +26,7 @@ router.post('/', async (req, res)=>{
          const invitation = await Invitation.findOne({where:{user_id: user.user_id}});
          console.log(invitation.invitation_token);
          const URL = "http//localhost:4200/activate/"+correousuario+"/"+user.user_full_name+"/"+invitation.invitation_token+"";
+         console.log(URL);
             const alta = await transporter.sendMail({
                 from: '"A3Satel" <j.cueto@a3satel.com>',
                 to: correousuario,
@@ -37,7 +38,7 @@ router.post('/', async (req, res)=>{
             });
             return res.json(); 
         } catch (error) {
-            res.json({error})
+            res.status(400).json({error})
         }
         
        
@@ -61,13 +62,18 @@ router.post('/', async (req, res)=>{
     const {user_full_name } = req.body;
     const URL = "http//localhost:4200";
         try {
+            const user = await User.findOne({ where: {user_email: correousuario}});
             console.log("3");
             await User.update({
                 status_id: 2,
                 user_password: password
-            })
+            }, 
+            {
+                where: {
+                    user_id: user.user_id,
+                }});
         } catch (error) {
-            res.json({error})
+            res.status(400).json({error})
         }
        try {
         console.log("4");
@@ -82,7 +88,7 @@ router.post('/', async (req, res)=>{
             }
         });
        } catch (error) {
-        res.json({error});
+        res.status(400).json({error});
        }
        try{
         console.log("5");
@@ -98,7 +104,7 @@ router.post('/', async (req, res)=>{
         console.log("6");
         return res.json(); 
     } catch (error) {
-        res.json({error})
+        res.status(400).json({error})
     }
     
    

@@ -108,7 +108,7 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
 })
 
 //Añadir
-router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
+router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
 
         const {bureau_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
@@ -137,7 +137,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
            const ccc = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_id: contributionaccountcode_id, contributionaccountcode_code: contributionaccountcode_code })
            res.json({ msg: "CCC: ", ccc })
         } catch (error) {
-           return res.json({
+           return res.status(400).json({
               error
            });
         }
@@ -145,11 +145,11 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
             await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: agreement_id })
             res.json({msg: "convenio relacionado"});
         } catch (error) {
-            res.json({error});
+            res.status(400).json({error});
         }
         }
         catch (error) {
-        return res.json({
+        return res.status(400).json({
             error
          });
          
