@@ -4,6 +4,7 @@ const { hash } = require("./helpers/hash");
 const { default: checkauth } = require("./middelware/checkauth");
 const User = require("./models/users");
 const Invitation = require("./models/invitations");
+const nodemailer = require("nodemailer");
 
 //routes
 router.get('/', async (req, res)=>{
@@ -82,29 +83,114 @@ router.put('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req, 
    
 });
 
-router.post('/bureaus/:bureau_id/invitation',checkauth.isAccessTokenValid, async(req, res)=>{
+router.post('/bureaus/:bureau_id/invitation', async(req, res)=>{
     const {bureau_id} = req.params;
     const {user_id} = req.body;
-    const user = await User.findOne({where: { user_id, bureau_id }});
-    if(user){ var jwt = require('jsonwebtoken');
-    var token = jwt.sign({sub: 'A3SATEL' ,user_id: user_id, bureau_id: bureau_id, rol_id: user.rol_id }, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
-    try {
-        await Invitation.create({user_id: user_id, invitation_token: token })
-        res.json({
-            "bureau_id": bureau_id,
-            "user_id": user_id,
-            "invitation_token": token
+    const correousuario = req.body.email;
+        const user = await User.findOne({where: { user_id, bureau_id }});
+        var transporter = nodemailer.createTransport({
+            host: "smtp.office365.com",
+            port: 587,
+            secure: false,
+            requireTLS: true,
+            auth: {
+                user: "j.cueto@a3satel.com",
+                pass: "Pokemons12*"
+            },
+            logger: true
         });
-    } catch (error) {
-        res.json({error});
-    }
-    
-    }else{
-        return res.status(400).json({
-            error: "Don't exist",
-         });
-    }
-   
+        if(user){ 
+            var jwt = require('jsonwebtoken');
+            var token = jwt.sign({sub: 'A3SATEL' ,user_id: user_id, bureau_id: bureau_id, rol_id: user.rol_id }, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
+            console.log("1");
+            try {
+                const invitation = await Invitation.findOne({where: { user_id }});
+                if(invitation){
+                    try {
+                        console.log("2");
+                        await Invitation.update({
+                            invitation_code: token,
+                        }, 
+                        {
+                            where: {
+                                user_id: user_id
+                            }
+                        });
+                    } catch (error) {
+                        console.log("2.5");
+                        res.status(400).json({error});
+                    }
+                    console.log("2.6");
+                 
+                  
+                        try { 
+                            console.log("2.7");
+                            const user = await User.findOne({ where: {user_email: correousuario}});
+                        console.log(user)
+                         const invitation = await Invitation.findOne({where:{user_id: user.user_id}});
+                         console.log(invitation.invitation_token);
+                         const URL = "http//localhost:4200/activate/"+correousuario+"/"+user.user_full_name+"";
+                         const invitation_token = "/"+invitation.invitation_token+"";
+                         console.log(URL);
+                            const alta = await transporter.sendMail({
+                                from: '"A3Satel" <j.cueto@a3satel.com>',
+                                to: correousuario,
+                                subject: "Formulario de registro",
+                                text: "el cuerpo de la prueba",
+                                html:"<h4>Bienvenido a Grupo A3Satel.</h4><p>Acabas de registrar una cuenta en nuestro producto Afilia3 como "+correousuario+".</p> <p>Para activar la cuenta por favor, pulsa el siguiente botón:</p><p><button><a href="+URL+invitation_token+">Formulario de ingreso</a></button></p><p>Si no puede hacer clic en el botón, por favor, copie y pegue la siguiente dirección en la barra de su navegador web de preferencia:</p><p>"+URL+invitation_token+"</p><p>Atentamente,</p><p>A3Satel</p>"
+                                ,
+                                headers: {'x-myheader': 'test header'}
+                            });
+                            return res.json(); 
+                        } catch (error) {
+                            console.log("2.8");
+                            res.status(400).json({error})
+                        }
+                        
+                    
+                 }else{
+                    try {
+                        console.log("3");
+                        await Invitation.create({user_id: user_id, invitation_token: token });
+                    } catch (error) {
+                        console.log("3.5");
+                        res.status(400).json({error})
+                    }
+                 
+                      
+                      
+                            try {
+                                const user = await User.findOne({ where: {user_email: correousuario}});
+                            console.log(user)
+                             const invitation = await Invitation.findOne({where:{user_id: user.user_id}});
+                             console.log(invitation.invitation_token);
+                             const URL = "http//localhost:4200/activate/"+correousuario+"/"+user.user_full_name+"";
+                             const invitation_token = "/"+invitation.invitation_token+"";
+                             console.log(URL);
+                                const alta = await transporter.sendMail({
+                                    from: '"A3Satel" <j.cueto@a3satel.com>',
+                                    to: correousuario,
+                                    subject: "Formulario de registro",
+                                    text: "el cuerpo de la prueba",
+                                    html:"<h4>Bienvenido a Grupo A3Satel.</h4><p>Acabas de registrar una cuenta en nuestro producto Afilia3 como "+correousuario+".</p> <p>Para activar la cuenta por favor, pulsa el siguiente botón:</p><p><button><a href="+URL+invitation_token+">Formulario de ingreso</a></button></p><p>Si no puede hacer clic en el botón, por favor, copie y pegue la siguiente dirección en la barra de su navegador web de preferencia:</p><p>"+URL+invitation_token+"</p><p>Atentamente,</p><p>A3Satel</p>"
+                                    ,
+                                    headers: {'x-myheader': 'test header'}
+                                });
+                                return res.json(); 
+                            } catch (error) {
+                                res.status(400).json({error})
+                            }
+                 }
+              
+            } catch (error) {
+                res.status(400).json({error});
+            }
+            
+            }else{
+                return res.status(400).json({
+                    error: "Don't exist",
+                 });
+            }   
 });
 
 

@@ -90,14 +90,15 @@ POST  http://localhost:3000/users/bureaus/1/invitation
 Content-Type: application/json
 
 {
-    "user_id": "111"
+    "user_id": "6",
+    "email":"j.cueto@a3satel.com"
 }
 ###
 POST  http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "user_email": "ahh.perez@elcantaro.es", 
+    "user_email": "a.perez@elcantaro.es", 
     "user_password": "A3Satel*2023"
 }
 ###
