@@ -26,7 +26,7 @@ router.get('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async (req,
     }
 })
 
-router.post('/bureaus/:bureau_id/users', async(req, res)=>{
+router.post('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req, res)=>{
     const {bureau_id,user_full_name,user_phone,user_email,user_observation,rol_id,status_id} = req.body
     const user_password = "invitado"
     const exist = await User.findOne({where: { user_email }});
@@ -125,7 +125,7 @@ router.put('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req, 
    
 });
 
-router.post('/bureaus/:bureau_id/invitation', async(req, res)=>{
+router.post('/bureaus/:bureau_id/invitation',checkauth.isAccessTokenValid, async(req, res)=>{
     const {bureau_id} = req.params;
     const {user_id} = req.body;
     const correousuario = req.body.email;
