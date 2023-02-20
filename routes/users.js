@@ -293,6 +293,7 @@ router.delete("/bureaus/:bureau_id/users",async(req, res)=>{
                     res.status(400).json({error});
                 }
             }else{
+                await Invitation.destroy({ where:{user_id }})
                 const user = await User.update({
                     status_id: 3,
                 }, 
