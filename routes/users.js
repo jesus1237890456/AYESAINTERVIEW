@@ -26,8 +26,10 @@ router.get('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async (req,
     }
 })
 
-router.post('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req, res)=>{
+router.post('/bureaus/:bureau_id/users', async(req, res)=>{
     const {bureau_id,user_full_name,user_phone,user_email,user_observation,rol_id,status_id} = req.body
+    const $URLAlternative = "http://localhost:4200/users/activate/"+user_email+"/"+user_full_name+"";
+    const URLAlternative = $URLAlternative.replace(' ','%20').trim();
     const user_password = "invitado"
     const exist = await User.findOne({where: { user_email }});
     if (exist){
@@ -36,6 +38,7 @@ router.post('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req,
         .json({error: "alredy exist an accoun with the given email"});
     }else{
         try {
+           
             const usercreate = await User.create({bureau_id: bureau_id,user_full_name: user_full_name,user_phone: user_phone,
                 user_email: user_email,user_observation: user_observation,rol_id: rol_id,status_id: status_id,user_password: user_password});
             res.json({
@@ -65,17 +68,21 @@ router.post('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req,
                               
                              const invitation = await Invitation.findOne({where:{user_id: usercreate.user_id}});
                              console.log(invitation.invitation_token);
-                             const URL = "http//localhost:4200/activate/"+user_email+"/"+user_full_name+"";
+                            
+                             const $URL = "http:////localhost:4200/users/activate/"+user_email+"/"+user_full_name+"";
+                             const URL = $URL.replace(' ','%20').trim();
+                             console.log(URL);
+                            
                              console.log("2.8");
                              const invitation_token = "/"+invitation.invitation_token+"";
-                             console.log(URL);
+                             
                              console.log("2.9");
                                 const alta = await transporter.sendMail({
                                     from: '"A3Satel" <j.cueto@a3satel.com>',
                                     to: user_email,
                                     subject: "Formulario de registro",
                                     text: "el cuerpo de la prueba",
-                                    html:"<h4>Bienvenido a Grupo A3Satel.</h4><p>Acabas de registrar una cuenta en nuestro producto Afilia3 como "+user_email+".</p> <p>Para activar la cuenta por favor, pulsa el siguiente botón:</p><p><button><a href="+URL+invitation_token+">Formulario de ingreso</a></button></p><p>Si no puede hacer clic en el botón, por favor, copie y pegue la siguiente dirección en la barra de su navegador web de preferencia:</p><p>"+URL+invitation_token+"</p><p>Atentamente,</p><p>A3Satel</p>"
+                                    html:"<h4>Bienvenido a Grupo A3Satel.</h4><p>Acabas de registrar una cuenta en nuestro producto Afilia3 como "+user_email+".</p> <p>Para activar la cuenta por favor, pulsa el siguiente botón:</p><p><button><a href="+URL+invitation_token+">Formulario de ingreso</a></button></p><p>Si no puede hacer clic en el botón, por favor, copie y pegue la siguiente dirección en la barra de su navegador web de preferencia:</p><p>"+URLAlternative+invitation_token+"</p><p>Atentamente,</p><p>A3Satel</p>"
                                     ,
                                     headers: {'x-myheader': 'test header'}
                                 });
@@ -171,7 +178,9 @@ router.post('/bureaus/:bureau_id/invitation',checkauth.isAccessTokenValid, async
                         console.log(user)
                          const invitation = await Invitation.findOne({where:{user_id: user.user_id}});
                          console.log(invitation.invitation_token);
-                         const URL = "http//localhost:4200/activate/"+correousuario+"/"+user.user_full_name+"";
+                         const $URL = "http:////localhost:4200/users/activate/"+correousuario+"/"+user.user_full_name+"";
+                         const URL = $URL.replace(/\s{2,}/g, ' ').trim();
+                         const URLAlternative = "http:////localhost:4200/users/activate/"+correousuario+"/"+user.user_full_name+"";
                          const invitation_token = "/"+invitation.invitation_token+"";
                          console.log(URL);
                             const alta = await transporter.sendMail({
@@ -179,7 +188,7 @@ router.post('/bureaus/:bureau_id/invitation',checkauth.isAccessTokenValid, async
                                 to: correousuario,
                                 subject: "Formulario de registro",
                                 text: "el cuerpo de la prueba",
-                                html:"<h4>Bienvenido a Grupo A3Satel.</h4><p>Acabas de registrar una cuenta en nuestro producto Afilia3 como "+correousuario+".</p> <p>Para activar la cuenta por favor, pulsa el siguiente botón:</p><p><button><a href="+URL+invitation_token+">Formulario de ingreso</a></button></p><p>Si no puede hacer clic en el botón, por favor, copie y pegue la siguiente dirección en la barra de su navegador web de preferencia:</p><p>"+URL+invitation_token+"</p><p>Atentamente,</p><p>A3Satel</p>"
+                                html:"<h4>Bienvenido a Grupo A3Satel.</h4><p>Acabas de registrar una cuenta en nuestro producto Afilia3 como "+correousuario+".</p> <p>Para activar la cuenta por favor, pulsa el siguiente botón:</p><p><button><a href="+URL+invitation_token+">Formulario de ingreso</a></button></p><p>Si no puede hacer clic en el botón, por favor, copie y pegue la siguiente dirección en la barra de su navegador web de preferencia:</p><p>"+URLAlternative+invitation_token+"</p><p>Atentamente,</p><p>A3Satel</p>"
                                 ,
                                 headers: {'x-myheader': 'test header'}
                             });
@@ -284,8 +293,17 @@ router.delete("/bureaus/:bureau_id/users",async(req, res)=>{
                     res.status(400).json({error});
                 }
             }else{
-                res.status(400).json({
-                    msg: "status don't coincident"
+                const user = await User.update({
+                    status_id: 3,
+                }, 
+                {
+                    where: {
+                        user_id: user_id,
+                        bureau_id: bureau_id
+                    }
+                });
+                res.json({
+                    msg: "user inactived"
                 });
             }
            
