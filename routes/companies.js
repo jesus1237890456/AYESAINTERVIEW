@@ -28,7 +28,7 @@ router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
                         error
                     });}
 })
-router.get('/bureaus/:bureau_id/companies/:company_id', async (req, res)=>{
+router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
     const {company_id} = req.params
     try{
         console.log("1");
