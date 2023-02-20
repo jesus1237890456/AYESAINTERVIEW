@@ -110,7 +110,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
 
         const {bureau_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
-            company_phone,company_contact,company_email,company_status_id, contributionaccountcode_code,agreement_id} = req.body
+            company_phone,company_contact,company_email,company_status_id, ccc,agreement_id} = req.body
         
             try{
         console.log("1");
@@ -138,8 +138,8 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
             console.log("5");
             await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: agreement_id })
             try {
-                for (var i = 0; i < contributionaccountcode_code.lenght; i++) {
-                    var ccc = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_code: contributionaccountcode_code })
+                for (var i = 0; i < ccc.lenght; i++) {
+                    var ccC = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_code: ccc[i].contributionaccountcode_code })
                   }
              
              } catch (error) {
@@ -153,7 +153,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
             console.log("6.5");
             return res.status(400).json({error});
         }
-        return res.json({ msg: "Compañia creada: ", companies:companies, ccc:ccc })
+        return res.json({ msg: "Compañia creada: ", companies:companies, ccc:ccC })
         }
         catch (error) {
         return res.status(400).json({
