@@ -64,9 +64,15 @@ Content-Type: application/json
 ###
 
 
-get http://localhost:3000/users/user/j.cueto@a3satel.com
+get http://localhost:3000/users/bureaus/1/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdlIiOiJBM1NBVEVMIiwidXNlcl9pZCI6NCwiYnVyZWF1X2lkIjoxLCJyb2xfaWQiOjEsImlhdCI6MTY3MDkzNzkzNCwiZXhwIjoxNjcwOTM3OTk0fQ.TMMso97pU2gahfUuiPWgibT1LyAvQeILPfFP3k0le7o
+###
+
+get http://localhost:3000/postalcode/1123
+
+###
+get http://localhost:3000/postalcode
+
 ###
 
 POST http://localhost:3000/users/bureaus/1/users
@@ -86,7 +92,7 @@ DELETE  http://localhost:3000/users/bureaus/1/users
 Content-Type: application/json
 
 {
-    "user_id": "36"
+    "user_id": "37"
 }
 ###
 

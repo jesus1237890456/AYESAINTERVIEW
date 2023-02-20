@@ -9,7 +9,7 @@
              primaryKey: true,
              autoIncrement:true
          },
-         state_code: {
+         state_cod: {
              type: DataTypes.STRING,
              allowNull: false,
          },

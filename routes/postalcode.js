@@ -4,10 +4,13 @@ const State = require("./models/state");
 const Countries = require("./models/countries");
 const router = require("express").Router();
 
-router.get('/:postalcode_code',checkauth.isAccessTokenValid, async (req, res)=>{
-    const postalcode_code = req.params;
+
+router.get('/:postalcode_code', async (req, res)=>{
+    const {postalcode_code} = req.params;
+   
     try {
-        const postalcodes = await Postalcodes.findOne({where: {postalcode_code} });
+        console.log(postalcode_code)
+        const postalcodes = await Postalcodes.findOne({where: {postalcode_code:postalcode_code} });
         const state_id = postalcodes.state_id;
         const state = await State.findOne({where: {state_id} });
         const country_id = state.country_id;
