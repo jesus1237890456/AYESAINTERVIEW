@@ -46,58 +46,65 @@ router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
 //Actualizar 
 router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
    
-        const {company_id}= req.params.company_id;
+        const {company_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
             company_phone,company_contact,company_email,company_status_id,ccc, convenios} = req.body
   
 
-       
-
-        
-        try{
-            for (var i = 0; i < ccc.length; i++) {
-                const contributionaccount= await ContributionAccountCodes.update({
-                
-                    contributionaccountcode_code: ccc[i].contributionaccountcode_code
-                },
-                {
-                    where:{
-                        company_id: company_id,
-                        contributionaccountcode_id: ccc[i].contributionaccountcode_id, 
-                    }
-                }
-                )
-            }
-    
-            }
-            catch (error) {
-            return res.status(500).json({
-                error
-             });
-             
-            }
             try{
-                for (var i = 0; i < convenios.length; i++) {
-                    const companiesagreement= await CompaniesAgreements.update({
-                    
-                        agreement_id: convenios[i].agreement_id
-                    },
-                    {
-                        where:{
-                            company_id: company_id,
-                            agreement_id: convenios[i].agreement_id
-                        }
-                    }
-                    )
+                console.log("1")
+                for (var i = 0; i < ccc.length; i++) {
+                 await ContributionAccountCodes.destroy({where: { company_id,contributionaccountcode_id: ccc[i].contributionaccountcode_id }})
+                 //res.json({ companies })
                 }
-        
-        
-                }
-                catch (error) {
+                 console.log("2")
+             }catch (error) {
+                console.log("3")
                 return res.status(500).json({
-                    error
-                 });
+                    error,
+                });
+           }
+           try{
+            for (var i = 0; i < convenios.length; i++) {
+                const companiesagreements = await CompaniesAgreements.destroy({where: { company_id,agreement_id: convenios[i].agreement_id }})
+                //res.json({ companies })
+                console.log("5")
+                }
+            }catch (error) {
+                console.log("6")
+                return res.status(500).json({
+                    error,
+                });
             }
+        
+            try {
+                console.log("5");
+                console.log(convenios)
+                for (var i = 0; i < convenios.length; i++) {
+                    console.log("5.5");
+                    console.log(convenios)
+                await CompaniesAgreements.create({company_id: company_id, agreement_id: convenios[i].agreement_id })
+                }
+            }catch (error) {
+                    console.log("4.5");
+                    return res.status(400).json({
+                      error
+                   });
+                }
+                try {
+                    console.log("5.5");
+                    console.log(ccc.length);
+                    for (var i = 0; i < ccc.length; i++) {
+                        console.log("5.6")
+                        var ccC = await ContributionAccountCodes.create({company_id: company_id, contributionaccountcode_code: ccc[i].contributionaccountcode_code })
+                      }
+                 
+                 } catch (error) {
+                     console.log("4.5");
+                     return res.status(400).json({
+                       error
+                    });
+                 }
             try{
                 const companies= await Companies.update({
                 
