@@ -111,7 +111,8 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
         const {bureau_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
             company_phone,company_contact,company_email,company_status_id, contributionaccountcode_code,agreement_id} = req.body
-     try{
+        
+            try{
         console.log("1");
         const companies= await Companies.create({
         bureau_id: bureau_id,
@@ -137,7 +138,10 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
             console.log("5");
             await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: agreement_id })
             try {
-               var ccc = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_code: contributionaccountcode_code })
+                for (var i = 0; i < contributionaccountcode_code.lenght; i++) {
+                    var ccc = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_code: contributionaccountcode_code })
+                  }
+             
              } catch (error) {
                  console.log("4.5");
                  return res.status(400).json({
