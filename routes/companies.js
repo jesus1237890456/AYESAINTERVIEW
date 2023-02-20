@@ -177,28 +177,30 @@ router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessToke
     const {bureau_id,company_id} = req.params
     const {agreement_id,contributionaccountcode_id} = req.body
     try{
-       const companies = await Companies.destroy({where: { company_id, bureau_id }})
-        //res.json({ companies })
-        
-     try{
-        const companiesagreements = await CompaniesAgreements.destroy({where: { company_id,agreement_id }})
-         //res.json({ companies })
-     }
-     catch (error) {
-         return res.status(500).json({
-             error,
-         });
-    }
-    try{
         const contributionaccount = await ContributionAccountCodes.destroy({where: { company_id,contributionaccountcode_id }})
          //res.json({ companies })
          
-     }
-     catch (error) {
-         return res.status(500).json({
-             error,
-         });
-    }
+     }catch (error) {
+        return res.status(500).json({
+            error,
+        });
+   }
+     try{
+        const companiesagreements = await CompaniesAgreements.destroy({where: { company_id,agreement_id }})
+         //res.json({ companies })
+     }catch (error) {
+        return res.status(500).json({
+            error,
+        });
+   }
+    try{
+       const companies = await Companies.destroy({where: { company_id, bureau_id }})
+        //res.json({ companies })
+        
+     
+     
+    
+     
     res.json({ msg: "Compañia eliminada " , company_id})
 }
     catch (error) {
