@@ -13,11 +13,11 @@ router.get('/:postalcode_code', async (req, res)=>{
         const postalcodes = await Postalcodes.findOne({where: {postalcode_code:postalcode_code} });
         const state_id = postalcodes.state_id;
         const state = await State.findOne({where: {state_id} });
-        const country_id = state.country_id;
-        const countries = await Countries.findOne({where: {country_id} });
+        // const country_id = state.country_id;
+        // const countries = await Countries.findOne({where: {country_id} });
         res.json({
             state_name: state.state_name,
-            country_name: countries.country_name
+            postalcode_name: postalcodes.postalcode_name
         })
     } catch (error) {
         res.status(400).json({
