@@ -13,16 +13,22 @@ const State = require("./models/state");
 router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
     const {bureau_id} = req.params
     try{
-    const companies = await Companies.findAll({where: { bureau_id }})
-    
-    res.json({ companies })
-    } catch (error) {
-    return res.status(500).json({
-        error
-     });
-}
+        const companies = await Companies.findAll({where: { bureau_id }})
+        try{
+            for (var i = 0; i < companies.length; i++) {
+                 var state = await State.findOne({where: { state_id: companies[i].state_id }})
+                 }
+                }catch (error) {
+                    return res.status(500).json({
+                         error
+                        });
+                    }res.json({ companies, state_name:state.state_name })
+                } catch (error) {
+                    return res.status(500).json({
+                        error
+                    });}
 })
-router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
+router.get('/bureaus/:bureau_id/companies/:company_id', async (req, res)=>{
     const {company_id} = req.params
     try{
         console.log("1");
@@ -36,8 +42,8 @@ router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
             for (var i = 0; i < $agreements.length; i++) {
             const agreement_id = $agreements[i].agreement_id;
             console.log(agreement_id);
-            const agreement = await Agreements.findAll({where: { agreement_id }})
-            var agreements = agreement.concat(agreements);
+            const _agreement = await Agreements.findAll({where: { agreement_id }})
+             var agreements = _agreement.concat(agreements);
             }
             console.log("3");
         } catch (error) {
@@ -51,6 +57,7 @@ router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
                     error
                 });
             }   
+            agreements = agreements.filter(Boolean)
         res.json({agreements, contributionaccount})
     }
     catch (error) {
