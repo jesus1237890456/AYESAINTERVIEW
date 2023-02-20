@@ -16,8 +16,8 @@ Content-Type: application/json
         "company_email":"company_email",
         "company_status_id":1,
         "company_certificate": "company_certificate",
-        "contributionaccountcode_code":"1",
-        "agreement_id":"1"
+        "ccc":[{"contributionaccountcode_code":1},{"contributionaccountcode_code":2}],
+        "convenios":[{"agreement_id":1},{"agreement_id":2}]
 
 }
 ###

@@ -110,7 +110,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
 
         const {bureau_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
-            company_phone,company_contact,company_email,company_status_id, ccc,agreement_id} = req.body
+            company_phone,company_contact,company_email,company_status_id, ccc,convenios} = req.body
         console.log(ccc);
             try{
         console.log("1");
@@ -136,7 +136,12 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
       
         try {
             console.log("5");
-            await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: agreement_id })
+            console.log(convenios)
+            for (var i = 0; i < convenios.length-1; i++) {
+                console.log("5.5");
+                console.log(convenios)
+            await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: convenios[i].agreement_id })
+            }
             try {
                 console.log("5.5");
                 console.log(ccc.length);
