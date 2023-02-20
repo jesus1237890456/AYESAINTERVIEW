@@ -1,5 +1,6 @@
  const sequelize = new require("./db");
  const {DataTypes} = require('sequelize');
+const State = require('./state');
  const Companies = sequelize.define(
      "users",
      {
@@ -45,7 +46,9 @@
         //
         state_id: {
             type: DataTypes.NUMBER,
-            allowNull: false
+            allowNull: false,
+            references: 'state',
+            referencesKey: 'id'
         },
         //
         country_id: {
@@ -78,7 +81,8 @@
          tableName: "companies"
      //otras opciones de modelo
      }
- );
+     );
+
  
  module.exports = Companies;
 

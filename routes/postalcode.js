@@ -17,7 +17,8 @@ router.get('/:postalcode_code',checkauth.isAccessTokenValid, async (req, res)=>{
         // const countries = await Countries.findOne({where: {country_id} });
         res.json({
             state_name: state.state_name,
-            postalcode_name: postalcodes.postalcode_name
+            postalcode_name: postalcodes.postalcode_name,
+            state_id: state_id
         })
     } catch (error) {
         res.status(400).json({

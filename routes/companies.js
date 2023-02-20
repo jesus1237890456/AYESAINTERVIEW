@@ -14,18 +14,8 @@ router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
     const {bureau_id} = req.params
     try{
     const companies = await Companies.findAll({where: { bureau_id }})
-    try{
-        for (var i = 0; i < companies.length; i++) {
-        var state = await State.findOne({where: { state_id: companies[i].state_id }})
-        }
-       
-        }
-        catch (error) {
-        return res.status(500).json({
-            error
-         });
-    }
-    res.json({ companies, state })
+  
+    res.json({ companies })
     } catch (error) {
     return res.status(500).json({
         error
