@@ -74,7 +74,7 @@ Content-Type: application/json
 
 {
    "bureau_id": 1, 
-    "user_full_name": "jj LOPEZ", 
+    "user_full_name": "jj LOPEZ kk", 
     "user_phone": "954276522", 
     "user_email": "j.cueto@a3satel.com", 
     "user_observation": "", 
@@ -86,7 +86,7 @@ DELETE  http://localhost:3000/users/bureaus/1/users
 Content-Type: application/json
 
 {
-    "user_id": "34"
+    "user_id": "36"
 }
 ###
 

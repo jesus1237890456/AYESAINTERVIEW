@@ -29,7 +29,7 @@ router.get('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async (req,
 router.post('/bureaus/:bureau_id/users', async(req, res)=>{
     const {bureau_id,user_full_name,user_phone,user_email,user_observation,rol_id,status_id} = req.body
     const $URLAlternative = "http://localhost:4200/users/activate/"+user_email+"/"+user_full_name+"";
-    const URLAlternative = $URLAlternative.replace(' ','%20').trim();
+    const URLAlternative = $URLAlternative.replace(/\s+/g,'%20').trim();
     const user_password = "invitado"
     const exist = await User.findOne({where: { user_email }});
     if (exist){
@@ -70,7 +70,7 @@ router.post('/bureaus/:bureau_id/users', async(req, res)=>{
                              console.log(invitation.invitation_token);
                             
                              const $URL = "http:////localhost:4200/users/activate/"+user_email+"/"+user_full_name+"";
-                             const URL = $URL.replace(' ','%20').trim();
+                             const URL = $URL.replace(/\s+/g,'%20').trim();
                              console.log(URL);
                             
                              console.log("2.8");
@@ -179,7 +179,7 @@ router.post('/bureaus/:bureau_id/invitation',checkauth.isAccessTokenValid, async
                          const invitation = await Invitation.findOne({where:{user_id: user.user_id}});
                          console.log(invitation.invitation_token);
                          const $URL = "http:////localhost:4200/users/activate/"+correousuario+"/"+user.user_full_name+"";
-                         const URL = $URL.replace(/\s{2,}/g, ' ').trim();
+                         const URL = $URL.replace(/\s+/g,'%20').trim();
                          const URLAlternative = "http:////localhost:4200/users/activate/"+correousuario+"/"+user.user_full_name+"";
                          const invitation_token = "/"+invitation.invitation_token+"";
                          console.log(URL);
