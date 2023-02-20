@@ -204,16 +204,15 @@ router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async 
        
 })
 //Eliminar
-router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
+router.delete('/bureaus/:bureau_id/companies/:company_id', async (req, res)=>{
    
     const {bureau_id,company_id} = req.params
-    const {ccc, convenios} = req.body
     try{
         console.log("1")
-        for (var i = 0; i < ccc.length; i++) {
+      
         const contributionaccount = await ContributionAccountCodes.destroy({where: { company_id }})
          //res.json({ companies })
-        }
+      
          console.log("2")
      }catch (error) {
         console.log("3")
@@ -223,11 +222,11 @@ router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessToke
    }
      try{
         console.log("4")
-        for (var i = 0; i < convenios.length; i++) {
+      
         const companiesagreements = await CompaniesAgreements.destroy({where: { company_id }})
          //res.json({ companies })
          console.log("5")
-        }
+       
      }catch (error) {
         console.log("6")
         return res.status(500).json({
