@@ -6,16 +6,27 @@ const ContributionAccountCodes = require("./models/contributionaccountcodes");
 const CompaniesAgreements = require("./models/companiesagreement");
 const Agreements = require("./models/agreements");
 const Companies = require("./models/companies");
+const State = require("./models/state");
 
 //routes
 //   /bureaus/{idBureau}/companies
-router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
+router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
     const {bureau_id} = req.params
     try{
     const companies = await Companies.findAll({where: { bureau_id }})
-    res.json({ companies })
+    try{
+        for (var i = 0; i < companies.length; i++) {
+        var state = await State.findOne({where: { state_id: companies[i].state_id }})
+        }
+       
+        }
+        catch (error) {
+        return res.status(500).json({
+            error
+         });
     }
-    catch (error) {
+    res.json({ companies, state })
+    } catch (error) {
     return res.status(500).json({
         error
      });
