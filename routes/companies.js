@@ -14,7 +14,7 @@ router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
     const {bureau_id} = req.params
     try{
     const companies = await Companies.findAll({where: { bureau_id }})
-  
+    
     res.json({ companies })
     } catch (error) {
     return res.status(500).json({
