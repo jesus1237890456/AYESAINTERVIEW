@@ -138,7 +138,7 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
 })
 
 //Añadir
-router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
+router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
 
         const {bureau_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
@@ -204,7 +204,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
        
 })
 //Eliminar
-router.delete('/bureaus/:bureau_id/companies/:company_id', async (req, res)=>{
+router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
    
     const {bureau_id,company_id} = req.params
     const {ccc, convenios} = req.body
