@@ -21,53 +21,53 @@ router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (
      });
 }
 })
+router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
+    const {company_id} = req.params
+    try{
+        const agreements = await CompaniesAgreements.findAll({where: { company_id:company_id }})
+        try{
+            var contributionaccount = await ContributionAccountCodes.findAll({where: { company_id:company_id }})
+            }
+            catch (error) {
+                return res.status(500).json({
+                    error
+                });
+            }   
+        res.json({agreements, contributionaccount})
+    }
+    catch (error) {
+        return res.status(500).json({
+            error
+        });
+    }
+    
+    })
 
 //Actualizar 
 router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
    
         const {company_id}= req.params.company_id;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
-            company_phone,company_contact,company_email,company_status_id,contributionaccountcode_id, contributionaccountcode_code,agreement_id} = req.body
-    try{
-        const companies= await Companies.update({
-        
-        company_fiscal_id:company_fiscal_id,
-        company_name: company_name,
-        ssscheme_id:ssscheme_id,
-        company_address:company_address,
-        postalcode_id:postalcode_id,
-        company_city:company_city,
-        state_id:state_id,
-        country_id:1,
-        company_phone:company_phone,
-        company_contact:company_contact,
-        company_email:company_email,
-        company_status_id:company_status_id,
-        company_certificate: company_certificate
-        },
-        {
-            where:{
-                company_id: company_id
-            }
-        }
-        )
+            company_phone,company_contact,company_email,company_status_id,ccc, convenios} = req.body
+  
 
        
 
         
         try{
-            const contributionaccount= await ContributionAccountCodes.update({
-            
-                contributionaccountcode_code: contributionaccountcode_code
-            },
-            {
-                where:{
-                    company_id: company_id,
-                    contributionaccountcode_id: contributionaccountcode_id, 
+            for (var i = 0; i < ccc.length; i++) {
+                const contributionaccount= await ContributionAccountCodes.update({
+                
+                    contributionaccountcode_code: ccc[i].contributionaccountcode_code
+                },
+                {
+                    where:{
+                        company_id: company_id,
+                        contributionaccountcode_id: ccc[i].contributionaccountcode_id, 
+                    }
                 }
+                )
             }
-            )
-    
     
             }
             catch (error) {
@@ -77,17 +77,19 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
              
             }
             try{
-                const companiesagreement= await CompaniesAgreements.update({
-                
-                    agreement_id: agreement_id
-                },
-                {
-                    where:{
-                        company_id: company_id,
-                        agreement_id: agreement_id
+                for (var i = 0; i < convenios.length; i++) {
+                    const companiesagreement= await CompaniesAgreements.update({
+                    
+                        agreement_id: convenios[i].agreement_id
+                    },
+                    {
+                        where:{
+                            company_id: company_id,
+                            agreement_id: convenios[i].agreement_id
+                        }
                     }
+                    )
                 }
-                )
         
         
                 }
@@ -96,7 +98,30 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
                     error
                  });
             }
-            res.json({ msg:"Compañia actualizada: ", company_name:company_name, contributionaccountcode_id:contributionaccountcode_id })
+            try{
+                const companies= await Companies.update({
+                
+                company_fiscal_id:company_fiscal_id,
+                company_name: company_name,
+                ssscheme_id:ssscheme_id,
+                company_address:company_address,
+                postalcode_id:postalcode_id,
+                company_city:company_city,
+                state_id:state_id,
+                country_id:1,
+                company_phone:company_phone,
+                company_contact:company_contact,
+                company_email:company_email,
+                company_status_id:company_status_id,
+                company_certificate: company_certificate
+                },
+                {
+                    where:{
+                        company_id: company_id
+                    }
+                }
+                )
+            res.json({ msg:"Compañia actualizada: ", company_name:company_name })
         }
         catch (error) {
         return res.status(500).json({
@@ -172,28 +197,38 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
        
 })
 //Eliminar
-router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
+router.delete('/bureaus/:bureau_id/companies/:company_id', async (req, res)=>{
    
     const {bureau_id,company_id} = req.params
-    const {agreement_id,contributionaccountcode_id} = req.body
+    const {ccc, convenios} = req.body
     try{
-        const contributionaccount = await ContributionAccountCodes.destroy({where: { company_id,contributionaccountcode_id }})
+        console.log("1")
+        for (var i = 0; i < ccc.length; i++) {
+        const contributionaccount = await ContributionAccountCodes.destroy({where: { company_id,contributionaccountcode_id: ccc[i].contributionaccountcode_id }})
          //res.json({ companies })
-         
+        }
+         console.log("2")
      }catch (error) {
+        console.log("3")
         return res.status(500).json({
             error,
         });
    }
      try{
-        const companiesagreements = await CompaniesAgreements.destroy({where: { company_id,agreement_id }})
+        console.log("4")
+        for (var i = 0; i < convenios.length; i++) {
+        const companiesagreements = await CompaniesAgreements.destroy({where: { company_id,agreement_id: convenios[i].agreement_id }})
          //res.json({ companies })
+         console.log("5")
+        }
      }catch (error) {
+        console.log("6")
         return res.status(500).json({
             error,
         });
    }
     try{
+        console.log("7")
        const companies = await Companies.destroy({where: { company_id, bureau_id }})
         //res.json({ companies })
         
@@ -202,8 +237,10 @@ router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessToke
     
      
     res.json({ msg: "Compañia eliminada " , company_id})
+    console.log("8")
 }
     catch (error) {
+        console.log("9")
         return res.status(500).json({
             error,
         });

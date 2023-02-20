@@ -1,5 +1,13 @@
 
+###
+DELETE http://localhost:3000/companies/bureaus/1/companies/56
+Content-Type: application/json
 
+{
+    "agreement_id":1,
+    "contributionaccountcode_id":30
+}
+###
 post http://localhost:3000/companies/bureaus/1/companies
 Content-Type: application/json
 
@@ -16,7 +24,7 @@ Content-Type: application/json
         "company_email":"company_email",
         "company_status_id":1,
         "company_certificate": "company_certificate",
-        "ccc":[{"contributionaccountcode_code":1},{"contributionaccountcode_code":2}],
+        "ccc":[{"contributionaccountcode_code":123456789012},{"contributionaccountcode_code":2}],
         "convenios":[{"agreement_id":1},{"agreement_id":2}]
 
 }
