@@ -293,26 +293,29 @@ router.delete("/bureaus/:bureau_id/users",async(req, res)=>{
                     res.status(400).json({error});
                 }
             }else{
-                await Invitation.destroy({ where:{user_id }})
-                const user = await User.update({
-                    status_id: 3,
-                }, 
-                {
-                    where: {
-                        user_id: user_id,
-                        bureau_id: bureau_id
-                    }
-                });
-                res.json({
-                    msg: "user inactived"
-                });
+                try {
+                    await Invitation.destroy({ where:{user_id }})
+                    const user = await User.update({
+                        status_id: 3,
+                    }, 
+                    {
+                        where: {
+                            user_id: user_id,
+                            bureau_id: bureau_id
+                        }
+                    });
+                    res.json({
+                        msg: "user inactived"
+                    });
+               
+         
+                } catch (error) {
+                    
+                }
             }
-           
-        }else{
-            res.status(400).json({
-                msg: "user don't exist"
-            });
-        }
+            }else{
+                res.status(400).json("user don't exist");
+            }
    
    
   

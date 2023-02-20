@@ -52,7 +52,7 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
         }
         )
 
-        res.json({ msg:"Compañia actualizada: ", company_name })
+       
 
         
         try{
@@ -68,7 +68,6 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
             }
             )
     
-            res.json({ msg:"ccc actualizada:", contributionaccountcode_id })
     
             }
             catch (error) {
@@ -90,7 +89,6 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
                 }
                 )
         
-                res.json({ msg:"convenio actualizada:" })
         
                 }
                 catch (error) {
@@ -98,7 +96,7 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
                     error
                  });
             }
-
+            res.json({ msg:"Compañia actualizada: ", company_name:company_name, contributionaccountcode_id:contributionaccountcode_id })
         }
         catch (error) {
         return res.status(500).json({
@@ -108,12 +106,13 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
 })
 
 //Añadir
-router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
+router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
 
         const {bureau_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
-            company_phone,company_contact,company_email,company_status_id,contributionaccountcode_id, contributionaccountcode_code,agreement_id} = req.body
+            company_phone,company_contact,company_email,company_status_id, contributionaccountcode_code,agreement_id} = req.body
      try{
+        console.log("1");
         const companies= await Companies.create({
         bureau_id: bureau_id,
         company_fiscal_id:company_fiscal_id,
@@ -123,7 +122,7 @@ router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async 
         postalcode_id:postalcode_id,
         company_city:company_city,
         state_id:state_id,
-        country_id:1,
+        country_id:66,
         company_phone:company_phone,
         company_contact:company_contact,
         company_email:company_email,
@@ -131,22 +130,26 @@ router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async 
         company_certificate: company_certificate    
         }        
         )
-
-        res.json({ msg: "Compañia creada: ", companies })
+        console.log("2");
+     
+      
         try {
-           const ccc = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_id: contributionaccountcode_id, contributionaccountcode_code: contributionaccountcode_code })
-           res.json({ msg: "CCC: ", ccc })
-        } catch (error) {
-           return res.status(400).json({
-              error
-           });
-        }
-        try {
+            console.log("5");
             await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: agreement_id })
-            res.json({msg: "convenio relacionado"});
+            try {
+               var ccc = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_code: contributionaccountcode_code })
+             } catch (error) {
+                 console.log("4.5");
+                 return res.status(400).json({
+                   error
+                });
+             }
+            console.log("6");
         } catch (error) {
-            res.status(400).json({error});
+            console.log("6.5");
+            return res.status(400).json({error});
         }
+        return res.json({ msg: "Compañia creada: ", companies:companies, ccc:ccc })
         }
         catch (error) {
         return res.status(400).json({
@@ -164,11 +167,10 @@ router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessToke
     try{
        const companies = await Companies.destroy({where: { company_id, bureau_id }})
         //res.json({ companies })
-        res.json({ msg: "Compañia eliminada " , company_id})
+        
      try{
         const companiesagreements = await CompaniesAgreements.destroy({where: { company_id,agreement_id }})
          //res.json({ companies })
-         res.json({ msg: "convenio eliminado " , companiesagreements})
      }
      catch (error) {
          return res.status(500).json({
@@ -178,13 +180,14 @@ router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessToke
     try{
         const contributionaccount = await ContributionAccountCodes.destroy({where: { company_id,contributionaccountcode_id }})
          //res.json({ companies })
-         res.json({ msg: "ccc eliminado " , contributionaccount})
+         
      }
      catch (error) {
          return res.status(500).json({
              error,
          });
     }
+    res.json({ msg: "Compañia eliminada " , company_id})
 }
     catch (error) {
         return res.status(500).json({

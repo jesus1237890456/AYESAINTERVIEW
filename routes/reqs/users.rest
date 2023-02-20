@@ -1,10 +1,9 @@
 
 
-post http://localhost:3000/companies/bureaus/3/companies
+post http://localhost:3000/companies/bureaus/1/companies
 Content-Type: application/json
 
 {   
-        "bureau_id":1,
         "company_fiscal_id":1,
         "company_name": "b",
         "ssscheme_id":1,
@@ -16,7 +15,10 @@ Content-Type: application/json
         "company_contact":"company_contact",
         "company_email":"company_email",
         "company_status_id":1,
-        "company_certificate": "company_certificate"
+        "company_certificate": "company_certificate",
+        "contributionaccountcode_code":"1",
+        "agreement_id":"1"
+
 }
 ###
 

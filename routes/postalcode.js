@@ -5,7 +5,7 @@ const Countries = require("./models/countries");
 const router = require("express").Router();
 
 
-router.get('/:postalcode_code', async (req, res)=>{
+router.get('/:postalcode_code',checkauth.isAccessTokenValid, async (req, res)=>{
     const {postalcode_code} = req.params;
    
     try {
