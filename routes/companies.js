@@ -25,7 +25,24 @@ router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
 router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
     const {company_id} = req.params
     try{
-        const agreements = await CompaniesAgreements.findAll({where: { company_id:company_id }})
+        console.log("1");
+        try {
+            var $agreements = await CompaniesAgreements.findAll({where: { company_id:company_id }})
+        } catch (error) {
+            
+        }
+        try {
+            console.log("2");
+            for (var i = 0; i < $agreements.length; i++) {
+            const agreement_id = $agreements[i].agreement_id;
+            console.log(agreement_id);
+            const agreement = await Agreements.findAll({where: { agreement_id }})
+            var agreements = agreement.concat(agreements);
+            }
+            console.log("3");
+        } catch (error) {
+            
+        }
         try{
             var contributionaccount = await ContributionAccountCodes.findAll({where: { company_id:company_id }})
             }

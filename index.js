@@ -28,7 +28,7 @@ app.use('/users', users);
 app.use('/companies', Companies);
 app.use('/postalcode', PostalCodes);
 app.use('/contributionaccountcodes', ContributionAccountCodes);
-app.use('/companies', Agreements);
+app.use('/agreements', Agreements);
 // app.use('/posts',posts);
 
 

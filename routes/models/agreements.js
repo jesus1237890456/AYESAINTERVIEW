@@ -3,17 +3,17 @@
  const Agreements = sequelize.define(
      "users",
      {
-        agreements_id: {
+        agreement_id: {
              type: DataTypes.NUMBER,
              allowNull: false,
              primaryKey: true,
          },
-         agreements_code: {
+         agreement_code: {
              type: DataTypes.DECIMAL,
              allowNull: false,
          },
          //Modelos y atributos
-         agreements_name: {
+         agreement_name: {
              type: DataTypes.STRING,
              allowNull: false,
              unique: true
