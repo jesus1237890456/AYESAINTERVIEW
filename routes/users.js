@@ -281,7 +281,7 @@ router.delete("/bureaus/:bureau_id/users",async(req, res)=>{
    
         const user = await User.findOne({where: { user_id, bureau_id }});
         if (user){
-            if(user.rol_id === 1){  
+            if(user.status_id === 1){  
                 try {
                     await Invitation.destroy({ where:{user_id }})
                     await User.destroy({ where:{user_id, bureau_id }})
