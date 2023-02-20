@@ -211,7 +211,7 @@ router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessToke
     try{
         console.log("1")
         for (var i = 0; i < ccc.length; i++) {
-        const contributionaccount = await ContributionAccountCodes.destroy({where: { company_id,contributionaccountcode_id: ccc[i].contributionaccountcode_id }})
+        const contributionaccount = await ContributionAccountCodes.destroy({where: { company_id }})
          //res.json({ companies })
         }
          console.log("2")
@@ -224,7 +224,7 @@ router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessToke
      try{
         console.log("4")
         for (var i = 0; i < convenios.length; i++) {
-        const companiesagreements = await CompaniesAgreements.destroy({where: { company_id,agreement_id: convenios[i].agreement_id }})
+        const companiesagreements = await CompaniesAgreements.destroy({where: { company_id }})
          //res.json({ companies })
          console.log("5")
         }
