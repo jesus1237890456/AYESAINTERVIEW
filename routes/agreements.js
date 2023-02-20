@@ -27,7 +27,7 @@ router.get('/bureaus/:bureau_id/companies/:company_id/agreements',checkauth.isAc
 })
 router.post('/bureaus/:bureau_id/companies/:company_id/agreements',checkauth.isAccessTokenValid, async (req, res)=>{
     const company_id = req.params.company_id;
-    const agreement_id = req.body;
+    const {agreement_id} = req.body;
     try {
         await CompaniesAgreements.create({company_id: company_id, agreement_id: agreement_id })
         res.json({msg: "convenio relacionado"});

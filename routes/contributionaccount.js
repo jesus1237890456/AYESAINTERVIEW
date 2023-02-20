@@ -3,7 +3,7 @@ const ContributionAccountCodes = require("./models/contributionaccountcodes");
 const router = require("express").Router();
 
 router.get('/bureaus/:bureau_id/companies/:company_id/contributionaccount',checkauth.isAccessTokenValid, async (req, res)=>{
-   const company_id = req.params;
+   const {company_id} = req.params;
    try {
       const contributionaccount = await ContributionAccountCodes.findOne({where: {company_id}})
       res.json({ contributionaccount })
