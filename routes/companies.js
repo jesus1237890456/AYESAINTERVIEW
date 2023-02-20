@@ -137,7 +137,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
         try {
             console.log("5");
             console.log(convenios)
-            for (var i = 0; i < convenios.length-1; i++) {
+            for (var i = 0; i < convenios.length; i++) {
                 console.log("5.5");
                 console.log(convenios)
             await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: convenios[i].agreement_id })
@@ -145,7 +145,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
             try {
                 console.log("5.5");
                 console.log(ccc.length);
-                for (var i = 0; i < ccc.length-1; i++) {
+                for (var i = 0; i < ccc.length; i++) {
                     console.log("5.6")
                     var ccC = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_code: ccc[i].contributionaccountcode_code })
                   }
