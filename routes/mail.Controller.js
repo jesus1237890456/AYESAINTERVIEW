@@ -25,7 +25,7 @@ router.post('/',checkauth.isAccessTokenValid, async (req, res)=>{
     const correousuario = req.body.email;
     const password = req.body.password;
     const {user_full_name } = req.body;
-    const URL = "http//localhost:4200";
+    const URL = "http:////localhost:4200";
         try {
             const user = await User.findOne({ where: {user_email: correousuario}});
             console.log("3");
