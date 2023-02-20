@@ -111,7 +111,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
         const {bureau_id}= req.params;
         const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
             company_phone,company_contact,company_email,company_status_id, ccc,agreement_id} = req.body
-        
+        console.log(ccc);
             try{
         console.log("1");
         const companies= await Companies.create({
@@ -138,7 +138,10 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
             console.log("5");
             await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: agreement_id })
             try {
-                for (var i = 0; i < ccc.lenght; i++) {
+                console.log("5.5");
+                console.log(ccc.length);
+                for (var i = 0; i < ccc.length-1; i++) {
+                    console.log("5.6")
                     var ccC = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_code: ccc[i].contributionaccountcode_code })
                   }
              
