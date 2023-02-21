@@ -1,7 +1,7 @@
  const sequelize = new require("./db");
  const {DataTypes} = require('sequelize');
  const State = sequelize.define(
-     "users",
+     "state",
      {
          state_id: {
              type: DataTypes.NUMBER,

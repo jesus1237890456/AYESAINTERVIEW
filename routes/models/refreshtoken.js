@@ -1,7 +1,7 @@
 const sequelize = new require("./db");
 const {DataTypes} = require('sequelize');
 const User = sequelize.define(
-    "users",
+    "refrestoken",
     {
         refreshtoken_id: {
             type: DataTypes.NUMBER,

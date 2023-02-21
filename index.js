@@ -16,12 +16,12 @@ app.set("port", process.env.PORT || 3000);
 
 app.use(express.json())
 
-//routes
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
   });
-// app.use('/users',users);
+  //routes
 app.use('/auth', auth);
 app.use('/mail', mailcontroller);
 app.use('/users', users);
@@ -29,8 +29,6 @@ app.use('/companies', Companies);
 app.use('/postalcode', PostalCodes);
 app.use('/contributionaccountcodes', ContributionAccountCodes);
 app.use('/agreements', Agreements);
-// app.use('/posts',posts);
-
 
 app.listen(app.get("port"), ()=>{
     console.log("server running on port " + app.get("port"));

@@ -2,22 +2,25 @@ const { default: checkauth } = require("./middelware/checkauth");
 const Companies = require("./models/companies");
 const CompaniesAgreements = require("./models/companiesagreement");
 const Agreements = require("./models/agreements");
-
-
 const router = require("express").Router();
 
+//mostrar todos los convenio
 router.get('/',checkauth.isAccessTokenValid, async (req, res)=>{
     const agreements = await Agreements.findAll({
     })
     res.json({ agreements })
 
 })
+//mostrar todos los convenio
 router.get('/bureaus/:bureau_id/companies/:company_id/agreements',checkauth.isAccessTokenValid, async (req, res)=>{
     const company_id = req.params.company_id;
     try {
-        const companies_agreements = await CompaniesAgreements.findOne({where: {company_id} })
-        const agreement_id = companies_agreements.agreement_id;
-        const agreements = await Agreements.findOne({where: { agreement_id} })
+        const companies_agreements = await CompaniesAgreements.findAll({where: {company_id} })
+        for (var i = 0; i < companies_agreements.length; i++) {
+            const _agreements = await Agreements.findOne({where: { agreement_id:companies_agreements[i].agreement_id} })
+            var agreements = _agreements.concat(agreements);
+        }
+        agreements = agreements.filter(Boolean)
         res.json({agreements});
     } catch (error) {
         res.json({error});

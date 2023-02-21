@@ -103,7 +103,7 @@ DELETE  http://localhost:3000/users/bureaus/1/users
 Content-Type: application/json
 
 {
-    "user_id": "37"
+    "user_id": "7"
 }
 ###
 
@@ -112,7 +112,7 @@ POST  http://localhost:3000/users/bureaus/1/invitation
 Content-Type: application/json
 
 {
-    "user_id": "9",
+    "user_id": "38",
     "email":"j.cueto@a3satel.com"
 }
 ###

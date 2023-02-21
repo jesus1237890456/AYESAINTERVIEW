@@ -1,7 +1,7 @@
  const sequelize = new require("./db");
  const {DataTypes} = require('sequelize');
  const CompaniesAgreements = sequelize.define(
-     "users",
+     "companies_agreements",
      {
          company_id: {
              type: DataTypes.NUMBER,

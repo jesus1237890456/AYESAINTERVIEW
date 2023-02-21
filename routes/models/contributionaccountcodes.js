@@ -1,7 +1,7 @@
  const sequelize = new require("./db");
  const {DataTypes} = require('sequelize');
  const ContributionAccountCodes = sequelize.define(
-     "users",
+     "contributionaccountcode",
      {
         contributionaccountcode_id: {
              type: DataTypes.NUMBER,
