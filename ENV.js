@@ -4,4 +4,4 @@ const localDatabase = {
     user: 'root'
 }
 
-export default localDatabase;
+module.exports = localDatabase;
