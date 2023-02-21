@@ -77,12 +77,10 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
   
 
             try{
-                console.log("1")
-                for (var i = 0; i < ccc.length; i++) {
-                 await ContributionAccountCodes.destroy({where: { company_id,contributionaccountcode_id: ccc[i].contributionaccountcode_id }})
+              
+                 await ContributionAccountCodes.destroy({where: { company_id }})
                  //res.json({ companies })
-                }
-                 console.log("2")
+              
              }catch (error) {
                 console.log("3")
                 return res.status(500).json({
@@ -90,11 +88,10 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
                 });
            }
            try{
-            for (var i = 0; i < convenios.length; i++) {
-                const companiesagreements = await CompaniesAgreements.destroy({where: { company_id,agreement_id: convenios[i].agreement_id }})
+          
+                const companiesagreements = await CompaniesAgreements.destroy({where: { company_id}})
                 //res.json({ companies })
-                console.log("5")
-                }
+               
             }catch (error) {
                 console.log("6")
                 return res.status(500).json({
