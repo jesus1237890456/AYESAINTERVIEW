@@ -6,24 +6,31 @@ const ContributionAccountCodes = require("./models/contributionaccountcodes");
 const CompaniesAgreements = require("./models/companiesagreement");
 const Agreements = require("./models/agreements");
 const Companies = require("./models/companies");
+const Postalcodes = require("./models/postalcodes");
 const State = require("./models/state");
 
 //routes
 // obtener todas las compañias
 router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
     const {bureau_id} = req.params
+    var state = []
     try{
         const companies = await Companies.findAll({where: { bureau_id }})
         try{
             for (var i = 0; i < companies.length; i++) {
-                 var state = await State.findOne({where: { state_id: companies[i].state_id }})
+                 const _state = await State.findAll({where: { state_id: companies[i].state_id }})
+                 state = _state.concat(state);
             }
         }catch (error) {
+            console.log(error)
             return res.status(500).json({
                     error
                     });
-        }res.json({ companies, state_name:state.state_name })
+        }
+        state = state?.filter(Boolean)
+        res.json({ companies, state_name:state.state_name })
         } catch (error) {
+            console.log(error)
             return res.status(500).json({
                     error
                     });}
@@ -31,28 +38,30 @@ router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
 //obtener CCC Y Convenios por id de compañia
 router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
     const {company_id} = req.params
+    var agreements =[]
     try{
-      
+        
         try {
             var $agreements = await CompaniesAgreements.findAll({where: { company_id:company_id }})
         } catch (error) {
-            
+            console.log(error);
         }
         try {
          
             for (var i = 0; i < $agreements.length; i++) {
                 const agreement_id = $agreements[i].agreement_id;
                 const _agreement = await Agreements.findAll({where: { agreement_id }})
-                var agreements = _agreement.concat(agreements);
+                 agreements = _agreement.concat(agreements);
             }
             
         } catch (error) {
-            
+            console.log(error);
         }
         try{
             var contributionaccount = await ContributionAccountCodes.findAll({where: { company_id:company_id }})
         }
         catch (error) {
+            console.log(error);
             return res.status(500).json({
                     error
                     });
@@ -60,6 +69,7 @@ router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
         agreements = agreements.filter(Boolean)
         res.json({agreements, contributionaccount})
     }catch (error) {
+        console.log(error);
         return res.status(500).json({
             error
             });
@@ -72,121 +82,133 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
    
     const {company_id}= req.params;
     const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
-            company_phone,company_contact,company_email,company_status_id,ccc, convenios} = req.body
+            company_phone,company_contact,company_email,company_status_id,contributionaccount, agreements} = req.body
+    try {
+
+        const postalcodes = await Postalcodes.findOne({where: {postalcode_code:postalcode_id} });
   
-    try{          
-         await ContributionAccountCodes.destroy({where: { company_id }})
-    }catch (error) {     
-        return res.status(500).json({
-                error,
-                });
-    }
-       try{          
-            const companiesagreements = await CompaniesAgreements.destroy({where: { company_id}})
-        }catch (error) {         
-                return res.status(500).json({
-                        error,
-                        });
-        }
-        
-        try {
-            for (var i = 0; i < convenios.length; i++) {
-            await CompaniesAgreements.create({company_id: company_id, agreement_id: convenios[i].agreement_id })
-            }
-        }catch (error) {             
-                return res.status(400).json({
-                      error
-                       });
-        }
-        try {
-            for (var i = 0; i < ccc.length; i++) {
-                var ccC = await ContributionAccountCodes.create({company_id: company_id, contributionaccountcode_code: ccc[i].contributionaccountcode_code })
-            }
-                 
-        } catch (error) {   
-                return res.status(400).json({
-                       error
-                        });
-        }
-        try{
-            const companies= await Companies.update({                
-                company_fiscal_id:company_fiscal_id,
-                company_name: company_name,
-                ssscheme_id:ssscheme_id,
-                company_address:company_address,
-                postalcode_id:postalcode_id,
-                company_city:company_city,
-                state_id:state_id,
-                country_id:1,
-                company_phone:company_phone,
-                company_contact:company_contact,
-                company_email:company_email,
-                company_status_id:company_status_id,
-                company_certificate: company_certificate
-                },
-                {
-                    where:{
-                        company_id: company_id
-                    }
-                }
-            )
-            res.json({ msg:"Compañia actualizada: ", company_name:company_name })
-        }catch (error) {
+        try{          
+            await ContributionAccountCodes.destroy({where: { company_id }})
+        }catch (error) {     
             return res.status(500).json({
-                    error
+                    error,
                     });
         }
-})
-
-//Añadir compañia
-router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
-
-    const {bureau_id}= req.params;
-    const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
-            company_phone,company_contact,company_email,company_status_id, ccc,convenios} = req.body
-       
-    try{ 
-        const companies= await Companies.create({
-            bureau_id: bureau_id,
-            company_fiscal_id:company_fiscal_id,
-            company_name: company_name,
-            ssscheme_id:ssscheme_id,
-            company_address:company_address,
-            postalcode_id:postalcode_id,
-            company_city:company_city,
-            state_id:state_id,
-            country_id:66,
-            company_phone:company_phone,
-            company_contact:company_contact,
-            company_email:company_email,
-            company_status_id:company_status_id,
-            company_certificate: company_certificate    
-        })
-     
-      
-        try {
-            for (var i = 0; i < convenios.length; i++) {            
-                await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: convenios[i].agreement_id })
+        try{          
+                const companiesagreements = await CompaniesAgreements.destroy({where: { company_id}})
+            }catch (error) {         
+                    return res.status(500).json({
+                            error,
+                            });
             }
-            try {     
-                for (var i = 0; i < ccc.length; i++) {         
-                    var ccC = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_code: ccc[i].contributionaccountcode_code })
-                }     
-            } catch (error) {            
+            
+            try {
+                for (var i = 0; i < agreements.length; i++) {
+                await CompaniesAgreements.create({company_id: company_id, agreement_id: agreements[i].agreement_id })
+                }
+            }catch (error) {             
+                    return res.status(400).json({
+                        error
+                        });
+            }
+            try {
+                for (var i = 0; i < contributionaccount.length; i++) {
+                    var ccC = await ContributionAccountCodes.create({company_id: company_id, contributionaccountcode_code: contributionaccount[i].contributionaccountcode_code })
+                }
+                    
+            } catch (error) {   
                     return res.status(400).json({
                         error
                             });
             }
-             
-        } catch (error) {        
-            return res.status(400).json({error});
+            try{
+                const companies= await Companies.update({                
+                    company_fiscal_id:company_fiscal_id,
+                    company_name: company_name,
+                    ssscheme_id:ssscheme_id,
+                    company_address:company_address,
+                    postalcode_id:postalcodes.postalcode_id,
+                    company_city:company_city,
+                    state_id:state_id,
+                    country_id:1,
+                    company_phone:company_phone,
+                    company_contact:company_contact,
+                    company_email:company_email,
+                    company_status_id:company_status_id,
+                    company_certificate: company_certificate
+                    },
+                    {
+                        where:{
+                            company_id: company_id
+                        }
+                    }
+                )
+            
+            }catch (error) {
+                return res.status(500).json({
+                        error
+                        });
+            }
+        res.json({ msg:"Compañia actualizada: ", company_name:company_name })
+    } catch (error) {
+                
+    }
+})
+
+//Añadir compañia
+router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
+
+    const {bureau_id}= req.params;
+    const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
+            company_phone,company_contact,company_email,company_status_id, contributionaccount,agreements} = req.body
+    try {
+        
+        var postalcodes = await Postalcodes.findOne({where: {postalcode_code:postalcode_id} });
+  
+      
+        try{ 
+            var companies= await Companies.create({
+                bureau_id: bureau_id,
+                company_fiscal_id:company_fiscal_id,
+                company_name: company_name,
+                ssscheme_id:ssscheme_id,
+                company_address:company_address,
+                postalcode_id:postalcodes.postalcode_id,
+                company_city:company_city,
+                state_id:state_id,
+                country_id:66,
+                company_phone:company_phone,
+                company_contact:company_contact,
+                company_email:company_email,
+                company_status_id:company_status_id,
+                company_certificate: company_certificate    
+            })
+        }catch (error) {
+            return res.status(400).json({
+                    error
+                    });
+            
         }
-    return res.json({ msg: "Compañia creada: ", companies:companies, ccc:ccC })
-    }catch (error) {
-        return res.status(400).json({
-                error
-                });
-         
+            try {
+                for (var i = 0; i < agreements.length; i++) {            
+                    await CompaniesAgreements.create({company_id: companies.company_id, agreement_id: agreements[i].agreement_id })
+                }
+            } catch (error) {       
+                return res.status(400).json({error});
+            }
+                try {     
+                    for (var i = 0; i < contributionaccount.length; i++) {         
+                        var ccC = await ContributionAccountCodes.create({company_id: companies.company_id, contributionaccountcode_code: contributionaccount[i].contributionaccountcode_code })
+                    }     
+                } catch (error) {    
+                        return res.status(400).json({
+                            error
+                                });
+                }
+       
+        return res.json({ msg: "Compañia creada: ", companies:companies, ccc:ccC })
+    } catch (error) {
+            
     }
        
 })

@@ -12,26 +12,26 @@ Content-Type: application/json
         "company_name": "b",
         "ssscheme_id":1,
         "company_address":"company_address",
-        "postalcode_id":"1",
+        "postalcode_id":"11234",
         "company_city":"company_city",
         "state_id":1,
         "company_phone":"company_phone",
         "company_contact":"company_contact",
         "company_email":"company_email",
         "company_status_id":1,
-        "company_certificate": "company_certificate",
+        "company_certificate": "",
         "ccc":[{"contributionaccountcode_code":123456789012},{"contributionaccountcode_code":2}],
         "convenios":[{"agreement_id":1},{"agreement_id":2}]
 
 }
 ###
 
-get http://localhost:3000/agreements/bureaus/1/companies/2/agreements
+get http://localhost:3000/agreements/bureaus/1/companies/108/agreements
 Content-Type: application/json
 
 ###
 
-get http://localhost:3000/companies/bureaus/1/companies/67
+get http://localhost:3000/companies/bureaus/1/companies/109
 Content-Type: application/json
 
 ###
