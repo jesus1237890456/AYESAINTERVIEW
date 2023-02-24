@@ -1,8 +1,7 @@
  const sequelize = new require("./db");
  const {DataTypes} = require('sequelize');
-const State = require('./state');
  const Companies = sequelize.define(
-     "users",
+     "companies",
      {
          bureau_id: {
              type: DataTypes.NUMBER,
@@ -82,6 +81,7 @@ const State = require('./state');
      //otras opciones de modelo
      }
      );
+     
 
  
  module.exports = Companies;

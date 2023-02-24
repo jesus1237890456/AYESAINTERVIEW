@@ -31,7 +31,7 @@ Content-Type: application/json
 
 ###
 
-get http://localhost:3000/companies/bureaus/1/companies/109
+get http://localhost:3000/companies/bureaus/1/companies
 Content-Type: application/json
 
 ###

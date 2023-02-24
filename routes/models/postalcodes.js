@@ -1,7 +1,8 @@
  const sequelize = new require("./db");
  const {DataTypes} = require('sequelize');
+const Companies = require('./companies');
  const PostalCodes = sequelize.define(
-     "users",
+     "postalcode",
      {
          postalcode_id: {
              type: DataTypes.NUMBER,
@@ -31,6 +32,8 @@
      //otras opciones de modelo
      }
  );
- 
+ PostalCodes.hasMany(Companies, {foreignKey:"postalcode_id"});
+ Companies.belongsTo(PostalCodes, {foreignKey:"postalcode_id"});
+
  module.exports = PostalCodes;
 

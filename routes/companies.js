@@ -11,24 +11,12 @@ const State = require("./models/state");
 
 //routes
 // obtener todas las compañias
-router.get('/bureaus/:bureau_id/companies', async (req, res)=>{
+router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
     const {bureau_id} = req.params
     var state = []
     try{
-        const companies = await Companies.findAll({where: { bureau_id }})
-        try{
-            for (var i = 0; i < companies.length; i++) {
-                 const _state = await State.findAll({where: { state_id: companies[i].state_id }})
-                 state = _state.concat(state);
-            }
-        }catch (error) {
-            console.log(error)
-            return res.status(500).json({
-                    error
-                    });
-        }
-        state = state?.filter(Boolean)
-        res.json({ companies, state_name:state.state_name })
+        const companies = await Companies.findAll({include:[Postalcodes,State]},{where: { bureau_id:bureau_id }})
+        res.json({ companies })
         } catch (error) {
             console.log(error)
             return res.status(500).json({

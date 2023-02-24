@@ -15,7 +15,7 @@ const sequelize = new Sequelize(localDatabase.database, localDatabase.user, loca
         console.error("Unable to connect to the database:", error);
     }
     await sequelize.sync({force:false});
-})();
+});
 
 module.exports = sequelize;
 

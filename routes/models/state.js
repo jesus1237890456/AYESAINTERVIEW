@@ -1,5 +1,6 @@
  const sequelize = new require("./db");
  const {DataTypes} = require('sequelize');
+const Companies = require('./companies');
  const State = sequelize.define(
      "state",
      {
@@ -31,6 +32,8 @@
      //otras opciones de modelo
      }
  );
+ State.hasMany(Companies, {foreignKey:"state_id"});
+ Companies.belongsTo(State, {foreignKey:"state_id"});
  
  module.exports = State;
 
