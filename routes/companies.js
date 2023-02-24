@@ -13,7 +13,6 @@ const State = require("./models/state");
 // obtener todas las compañias
 router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
     const {bureau_id} = req.params
-    var state = []
     try{
         const companies = await Companies.findAll({include:[Postalcodes,State]},{where: { bureau_id:bureau_id }})
         res.json({ companies })
@@ -144,7 +143,7 @@ router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
 })
 
 //Añadir compañia
-router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
+router.post('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
 
     const {bureau_id}= req.params;
     const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
@@ -201,7 +200,7 @@ router.post('/bureaus/:bureau_id/companies', async (req, res)=>{
        
 })
 //Eliminar compañia por id
-router.delete('/bureaus/:bureau_id/companies/:company_id', async (req, res)=>{
+router.delete('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
    const {bureau_id,company_id} = req.params
     try{   
         const contributionaccount = await ContributionAccountCodes.destroy({where: { company_id }})
