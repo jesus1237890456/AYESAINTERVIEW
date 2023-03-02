@@ -23,6 +23,7 @@ app.use((req, res, next) => {
   });
   //routes
 app.use('/auth', auth);
+app.use('/bureau', bureau);
 app.use('/mail', mailcontroller);
 app.use('/users', users);
 app.use('/companies', Companies);

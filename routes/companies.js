@@ -9,7 +9,7 @@ const Companies = require("./models/companies");
 const Postalcodes = require("./models/postalcodes");
 const State = require("./models/state");
 
-//routes
+// routes
 // obtener todas las compañias
 router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
     const {bureau_id} = req.params
@@ -22,10 +22,12 @@ router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (
                     error
                     });}
 })
+
 //obtener CCC Y Convenios por id de compañia
 router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
     const {company_id} = req.params
     var agreements =[]
+    
     try{
         
         try {
@@ -64,16 +66,14 @@ router.get('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenVa
     
 })
 
-//Actualizar compañia por id
+//Actualizar compañia por id  modificar statecode
 router.put('/bureaus/:bureau_id/companies/:company_id',checkauth.isAccessTokenValid, async (req, res)=>{
    
     const {company_id}= req.params;
     const {company_certificate,company_fiscal_id,company_name,ssscheme_id,company_address,postalcode_id,company_city,state_id,
             company_phone,company_contact,company_email,company_status_id,contributionaccount, agreements} = req.body
     try {
-
         const postalcodes = await Postalcodes.findOne({where: {postalcode_code:postalcode_id} });
-  
         try{          
             await ContributionAccountCodes.destroy({where: { company_id }})
         }catch (error) {     

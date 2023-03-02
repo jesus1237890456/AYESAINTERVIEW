@@ -1,10 +1,29 @@
 const { default: checkauth } = require("./middelware/checkauth");
-
+const Bureau = require("./models/bureau");
 const router = require("express").Router();
 
-router.get('/',checkauth.isAccessTokenValid, async (req, res)=>{
-   
-    res.json({  })
+router.get('/:bureau_id', async (req, res)=>{
+    const {bureau_id} = req.params
+    try {
+        const bureau = await Bureau.findOne({ where: {bureau_id}})
+        res.json({ bureau }) 
+    } catch (error) {
+        return res.status(400).json({
+                error: error,
+            });
+    }
+
+})
+router.get('/', async (req, res)=>{
+    const {bureau_id} = req.params
+    try {
+        const bureau = await Bureau.findAll()
+        res.json({ bureau }) 
+    } catch (error) {
+        return res.status(400).json({
+                error: error,
+            });
+    }
 
 })
 
