@@ -14,7 +14,7 @@ const State = require("./models/state");
 router.get('/bureaus/:bureau_id/companies',checkauth.isAccessTokenValid, async (req, res)=>{
     const {bureau_id} = req.params
     try{
-        const companies = await Companies.findAll({include:[Postalcodes,State]},{where: { bureau_id:bureau_id }})
+        const companies = await Companies.findAll({include:[Postalcodes,State],where: { bureau_id:bureau_id }})
         res.json({ companies })
         } catch (error) {
             console.log(error)

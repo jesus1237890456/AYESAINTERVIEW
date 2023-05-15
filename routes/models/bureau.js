@@ -1,6 +1,6 @@
 const sequelize = new require("./db");
 const {DataTypes} = require('sequelize');
-const User = sequelize.define(
+const Bureau = sequelize.define(
     "bureau",
     {
         bureau_id: {
@@ -36,4 +36,4 @@ const User = sequelize.define(
     }
 );
 
-module.exports = User;
+module.exports = Bureau;
