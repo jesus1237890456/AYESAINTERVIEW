@@ -1,43 +1,18 @@
-const { default: checkauth } = require("./middelware/checkauth");
 const users = require("./models/users");
-const refreshtoken = require("./models/refreshtoken");
+const Token = require("./models/token");
 const router = require("express").Router();
 
-// refrescar token
-router.post('/refresh',checkauth.isRefreshTokenValid, async (req, res)=>{
-    var jwt = require('jsonwebtoken');
-    var decoded = jwt.verify(req.body.refreshToken, 'Cl4vePr1vada2022*');
-    const token = jwt.sign({sub: 'A3SATEL' ,user_id: decoded.user_id, bureau_id: decoded.bureau_id, rol_id: decoded.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
-    var refreshToken = jwt.sign({ sub: 'A3SATEL' ,user_id: decoded.user_id, bureau_id: decoded.bureau_id, rol_id: decoded.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
-    try {
-        await refreshtoken.update({
-            refreshtoken_token: refreshToken,
-        }, 
-        {
-            where: {
-                user_id: decoded.user_id
-            }
-        });
-        return res.json({
-            token: token,
-            refreshToken: refreshToken
-        });
-    } catch (error) {
-        return res.status(400).json({
-                error
-                });
-    }    
-})
-//Deslogarse
+
+//Deslogarse borra el token
 router.post('/logout', async (req, res)=>{
-    const {user_id} = req.body;
+    const {id_usuario} = req.body;
     try {
-        await refreshtoken.update({
-            refreshtoken_token: "",
+        await Token.update({
+            token: "",
         }, 
         {
             where: {
-                user_id: user_id
+                id_usuario: id_usuario
             }
         });
     } catch (error) {
@@ -47,58 +22,71 @@ router.post('/logout', async (req, res)=>{
     }    
        
 })
-//loguearse
+//registrarse comprueba si existe el usuario, y si no es asi lo crea
+router.post("/register", async(req, res)=>{
+    const {mail, password, name, last_name, dni} = req.body
+    const exist = await users.findOne({where: { mail }});
+    if (exist){
+        return res
+        .status(409)
+        .json({error: "alredy exist an accoun with the given email"});
+    }
+    try {
+        const user = await users.create({ name: name,last_name:last_name, mail:mail, dni:dni, password: password });
+        res.json({
+            user, attributes: {exclude:['password']}
+        });
+    } catch (error) {
+        res.status(400).json({error});
+    }
+ 
+});
+//loguearse si exite el token lo actualiza y si no lo crea, a parte de comprobar si existe el usuario
 router.post("/login", async(req, res)=>{
     var jwt = require('jsonwebtoken');
     const {user_email, user_password} = req.body;
-        if (!user_email || !user_password){
-            return res.status(400);
-        }else{
             try {
-                const user = await users.findOne({where: { user_email, user_password }});
-                const user_id = user.user_id;
-                const refresh = await refreshtoken.findOne({where: { user_id }});
-                if(refresh){
+                const user = await users.findOne({where: { name: user_email, password: user_password }});
+                const user_id = user.id;
+                const tokenn = await Token.findOne({where: { id_usuario: user_id }});
+                if(tokenn){
                     var jwt = require('jsonwebtoken');
-                    var token = jwt.sign({sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id, jit: refresh.refreshtoken_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
-                    var refreshToken = jwt.sign({ sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id, jit: refresh.refreshtoken_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
+                    var tokens = jwt.sign({sub: 'Ayesa' ,id_usuario: user.id, jit: tokenn.id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
                     try {
-                        await refreshtoken.update({
-                            refreshtoken_token: refreshToken,
+                        await Token.update({
+                            token: tokens,
                         }, 
                         {
                             where: {
-                            user_id: user.user_id
+                            id_usuario: user.id
                             }
                         });
                         return res.json({
-                            token: token,
-                            refreshToken: refreshToken,
-                            user_id: user.user_id,
-                            bureau_id: user.bureau_id,
-                            rol_id: user.rol_id,
-                            name_user: user.user_full_name
+                            accessToken: tokens,
+                            id: user.id,
+                            name: user.name + user.last_name,
+                            empresa: "Ayesa"
                     });
                     }catch (error) {
+
                         return res.status(400).json({
                                 error
                                 });
                     }
                 }else{
                     var jwt = require('jsonwebtoken');
-                    var token = jwt.sign({sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
-                    var refreshToken = jwt.sign({ sub: 'A3SATEL' ,user_id: user.user_id, bureau_id: user.bureau_id, rol_id: user.rol_id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
+                    var tokens = jwt.sign({sub: 'Ayesa' ,id_usuario: user.id}, 'Cl4vePr1vada2022*',{expiresIn:'1d'});
                     try {    
-                        await refreshtoken.create({  user_id:user.user_id, refreshtoken_token:refreshToken });
+                      
+                        await Token.create({  id_usuario:user.id, token:tokens });
                         return res.json({
-                            token: token,
-                            refreshToken: refreshToken,
-                            user_id: user.user_id,
-                            bureau_id: user.bureau_id,
-                            rol_id: user.rol_id,
-                            name_user: user.user_full_name
+                            accessToken: tokens,
+                            id: user.id,
+                            name: user.name +" " + user.last_name,
+                            empresa: "Ayesa"
                         });
                     }catch (error) {
+
                         return res.status(400).json({
                                 error
                                 });
@@ -107,8 +95,6 @@ router.post("/login", async(req, res)=>{
             } catch (error) {
                 return res.status(400).json({error});
             }
-       
-        }
 });
 
 

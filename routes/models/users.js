@@ -1,57 +1,39 @@
 const sequelize = new require("./db");
 const {DataTypes} = require('sequelize');
 const User = sequelize.define(
-    "users",
+    "usuarios",
     {
-        bureau_id: {
-            type: DataTypes.NUMBER,
-            allowNull: false,
-            primaryKey: true,
-        },
-        status_id: {
-            type: DataTypes.NUMBER,
-            allowNull: false,
-            primaryKey: true,
-        },
-        rol_id: {
-            type: DataTypes.NUMBER,
-            allowNull: false,
-            primaryKey: true,
-        },
-        user_id: {
+        id: {
             type: DataTypes.NUMBER,
             allowNull: false,
             primaryKey: true,
             autoIncrement:true
         },
-        //Modelos y atributos
-        user_email: {
+        dni: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true
-        }, 
-        user_full_name: {
+        },
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true
         },
-        user_password: {
+        last_name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true,
+           
         },
-        user_phone: {
+        mail: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true,
         },
-        user_observation: {
+        password:{
             type: DataTypes.STRING,
-            allowNull: false
-        }
+            allowNull: true,
+        },
     }, 
     {
         timestamps: false,
-        tableName: "users"
-    //otras opciones de modelo
+        tableName: "usuarios"
     }
 );
 

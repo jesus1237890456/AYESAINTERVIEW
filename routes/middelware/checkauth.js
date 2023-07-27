@@ -1,3 +1,4 @@
+//middelware de jwt que comprueba si el token es valido
 Object.defineProperty(exports, "__esModule", { value: true });
 class Checkauth {
     isAccessTokenValid(req, res, next) {
@@ -18,29 +19,9 @@ class Checkauth {
                 }
             }
             else {
-                console.log(verifiedJwt);
                 next();
             }
         });
-    }
-    isRefreshTokenValid(req,res,next){
-        const refreshToken = req.body.refreshToken;
-        var jwt = require('jsonwebtoken');
-        jwt.verify(refreshToken, 'Cl4vePr1vada2022*', (err, verifiedJwt)=>{
-            if(err){
-                if(err.name === 'TokenExpiredError'){
-                    return res.status(403).json({
-                        error: "RefreshToken Expirado",
-                     });
-                }else{
-                    return res.status(400).json({
-                        error: "Token invalido",
-                     });
-                }
-            }else{
-                next();
-            }
-        })
     }
 }
 const checkauth = new Checkauth();

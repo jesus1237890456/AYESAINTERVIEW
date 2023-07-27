@@ -1,30 +1,34 @@
 const sequelize = new require("./db");
 const {DataTypes} = require('sequelize');
-const User = sequelize.define(
-    "refrestoken",
+const Token = sequelize.define(
+    "tokens",
     {
-        refreshtoken_id: {
+        id: {
             type: DataTypes.NUMBER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
         },
-        user_id: {
+        token: {
+            type: DataTypes.STRING,
+            allowNull: true,
+          
+        },
+        activation_token: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        id_usuario:{
             type: DataTypes.NUMBER,
             allowNull: false,
             primaryKey: true,
-        },
-        refreshtoken_token: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            unique: true
         }
     }, 
     {
         timestamps: false,
-        tableName: "refreshtokens"
+        tableName: "token"
     //otras opciones de modelo
     }
 );
 
-module.exports = User;
+module.exports = Token;

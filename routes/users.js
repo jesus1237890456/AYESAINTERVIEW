@@ -1,83 +1,33 @@
 const router = require("express").Router();
-const { verify } = require("crypto");
-const { hash } = require("./helpers/hash");
 const { default: checkauth } = require("./middelware/checkauth");
 const User = require("./models/users");
-const Invitation = require("./models/invitations");
-const nodemailer = require("nodemailer");
 
 //routes
-// router.get('/', async (req, res)=>{
-//     const user = await User.findAll({
-//         attributes: {exclude:['password']}
-//     })
-//     res.json({ user })
-
-// })
-// obtener todos los usuarios por id bureau
-router.get('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async (req, res)=>{
-    const {bureau_id} = req.params
+// obtener todos los usuarios
+router.get('/',checkauth.isAccessTokenValid, async (req, res)=>{
     try {
-        const user = await User.findAll({ where: {bureau_id}})
+        const user = await User.findAll()
         res.json({ user }) 
     } catch (error) {
         return res.status(400).json({
-                error: "Don't bureaus associate",
+                error: "Don't user associate",
             });
     }
 })
-// crear usuario
-router.post('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req, res)=>{
-    const {bureau_id,user_full_name,user_phone,user_email,user_observation,rol_id,status_id} = req.body
-    const $URLAlternative = "http://localhost:4200/users/activate/"+user_email+"/"+user_full_name+"";
-    const URLAlternative = $URLAlternative.replace(/\s+/g,'%20').trim();
-    const user_password = "invitado"
-    const exist = await User.findOne({where: { user_email }});
+// crear usuario, comprueba si existe y si no lo crea
+router.post('/',checkauth.isAccessTokenValid, async(req, res)=>{
+    const {dni,name,last_name,mail} = req.body
+    const exist = await User.findOne({where: { mail:mail }});
     if (exist){
         return res
         .status(409)
         .json({error: "alredy exist an accoun with the given email"});
     }else{
         try {
-            const usercreate = await User.create({bureau_id: bureau_id,user_full_name: user_full_name,user_phone: user_phone,
-                user_email: user_email,user_observation: user_observation,rol_id: rol_id,status_id: status_id,user_password: user_password});
+            const usercreate = await User.create({ name: name,last_name:last_name, mail:mail, dni:dni});
             res.json({
-                user_id: usercreate.user_id
-            });
-            var transporter = nodemailer.createTransport({
-                host: "smtp.office365.com",
-                port: 587,
-                secure: false,
-                requireTLS: true,
-                auth: {
-                    user: "j.cueto@a3satel.com",
-                    pass: "Pokemons12*"
-                },
-                logger: true
-            });
-            var jwt = require('jsonwebtoken');
-            const token = jwt.sign({sub: 'A3SATEL' ,user_id: usercreate.user_id, bureau_id: bureau_id, rol_id: usercreate.rol_id }, 'Cl4vePr1vada2022*',{expiresIn:'60000'});             
-            try { 
-                try {
-                    await Invitation.create({user_id: usercreate.user_id, invitation_token: token }); 
-                } catch (error) {
-                    res.status(400).json({error})
-                }             
-                const invitation = await Invitation.findOne({where:{user_id: usercreate.user_id}});
-                const $URL = "http:////localhost:4200/users/activate/"+user_email+"/"+user_full_name+"";
-                const URL = $URL.replace(/\s+/g,'%20').trim();
-                const invitation_token = "/"+invitation.invitation_token+"";
-                const alta = await transporter.sendMail({
-                                from: '"A3Satel" <j.cueto@a3satel.com>',
-                                to: user_email,
-                                subject: "Formulario de registro",
-                                text: "el cuerpo de la prueba",
-                                html:"<h4>Bienvenido a Grupo A3Satel.</h4><p>Acabas de registrar una cuenta en nuestro producto Afilia3 como "+user_email+".</p> <p>Para activar la cuenta por favor, pulsa el siguiente botón:</p><p><button><a href="+URL+invitation_token+">Formulario de ingreso</a></button></p><p>Si no puede hacer clic en el botón, por favor, copie y pegue la siguiente dirección en la barra de su navegador web de preferencia:</p><p>"+URLAlternative+invitation_token+"</p><p>Atentamente,</p><p>A3Satel</p>",
-                                headers: {'x-myheader': 'test header'}
-                            });
-            } catch (error) {
-                res.status(400).json({error})
-            }                            
+                id: usercreate.id
+            });    
         } catch (error) {
             res.status(400).json({error})
         }
@@ -85,108 +35,37 @@ router.post('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req,
 });
 
 //actualizar usuario
-router.put('/bureaus/:bureau_id/users',checkauth.isAccessTokenValid, async(req, res)=>{
-    const {user_id,bureau_id,user_full_name,user_phone,user_email,user_observation,rol_id,status_id,user_password} = req.body
+router.put('/:userId',checkauth.isAccessTokenValid, async(req, res)=>{
+    const{name,last_name,mail,dni} = req.body
+    const {userId} = req.params
+   
     try {
         const user = await User.update({
-            bureau_id: bureau_id,
-            user_full_name: user_full_name,
-            user_phone: user_phone,
-            user_email: user_email,
-            user_observation: user_observation,
-            rol_id: rol_id,
-            status_id: status_id,
-            user_password: user_password
+            name: name,
+            last_name: last_name,
+            mail: mail,
+            dni: dni
         }, 
         {
             where: {
-                user_id: user_id,
-                bureau_id: bureau_id
+                id: userId,
             }
         });
-        user.user_password = "";
             res.json({
-                bureau_id: bureau_id,
-                user_full_name: user_full_name,
-                user_phone: user_phone,
-                user_email: user_email,
-                user_observation: user_observation,
-                rol_id: rol_id,
-                status_id: status_id,
+                userFullName:name + last_name,
+                email: mail,
             });     
     } catch (error) {
         res.status(400).json({error});
     }
 });
 
-//reenvia invitacion, y actualiza token invitacion 
-router.post('/bureaus/:bureau_id/invitation',checkauth.isAccessTokenValid, async(req, res)=>{
-    const {bureau_id} = req.params;
-    const {user_id} = req.body;
-    const correousuario = req.body.email;
-    const user = await User.findOne({where: { user_id, bureau_id }});
-    var transporter = nodemailer.createTransport({
-        host: "smtp.office365.com",
-        port: 587,
-        secure: false,
-        requireTLS: true,
-        auth: {
-            user: "j.cueto@a3satel.com",
-            pass: "Pokemons12*"
-        },
-        logger: true
-    });
-    if(user){ 
-        var jwt = require('jsonwebtoken');
-        var token = jwt.sign({sub: 'A3SATEL' ,user_id: user_id, bureau_id: bureau_id, rol_id: user.rol_id }, 'Cl4vePr1vada2022*',{expiresIn:'60000'});
-        try {
-            try {
-                await Invitation.update({
-                    invitation_code: token,
-                }, 
-                {
-                    where: {
-                        user_id: user_id
-                    }
-                });
-            } catch (error) {
-                res.status(400).json({error});
-            } 
-            try { 
-                const user = await User.findOne({ where: {user_email: correousuario}});
-                const invitation = await Invitation.findOne({where:{user_id: user.user_id}});
-                const $URL = "http:////localhost:4200/users/activate/"+correousuario+"/"+user.user_full_name+"";
-                const URL = $URL.replace(/\s+/g,'%20').trim();
-                const URLAlternative = "http:////localhost:4200/users/activate/"+correousuario+"/"+user.user_full_name+"";
-                const invitation_token = "/"+invitation.invitation_token+"";
-                const alta = await transporter.sendMail({
-                            from: '"A3Satel" <j.cueto@a3satel.com>',
-                            to: correousuario,
-                            subject: "Formulario de registro",
-                            text: "el cuerpo de la prueba",
-                            html:"<h4>Bienvenido a Grupo A3Satel.</h4><p>Acabas de registrar una cuenta en nuestro producto Afilia3 como "+correousuario+".</p> <p>Para activar la cuenta por favor, pulsa el siguiente botón:</p><p><button><a href="+URL+invitation_token+">Formulario de ingreso</a></button></p><p>Si no puede hacer clic en el botón, por favor, copie y pegue la siguiente dirección en la barra de su navegador web de preferencia:</p><p>"+URLAlternative+invitation_token+"</p><p>Atentamente,</p><p>A3Satel</p>",
-                            headers: {'x-myheader': 'test header'}
-                            });
-                return res.json(); 
-            } catch (error) {
-                res.status(400).json({error})
-            }         
-        } catch (error) {
-            res.status(400).json({error});
-        }
-            
-    }else{
-        return res.status(400).json({
-                error: "Don't exist",
-                });
-    }   
-});
 
-//mostar un usuario
-router.get('/bureaus/:bureau_id/users/:user_id',checkauth.isAccessTokenValid, async (req, res)=>{
-    const {bureau_id, user_id} = req.params
+//mostar un usuario por id
+router.get('/:user_id',checkauth.isAccessTokenValid, async (req, res)=>{
+    const {user_id} = req.params
     try {
-        const user = await User.findOne({ where: {bureau_id ,user_id}})
+        const user = await User.findOne({ where: {id: user_id}})
         res.json({ user }) 
     } catch (error) {
         return res.status(400).json({
@@ -195,55 +74,19 @@ router.get('/bureaus/:bureau_id/users/:user_id',checkauth.isAccessTokenValid, as
     }
 })
 
-// router.post("/register", async(req, res)=>{
-//     const {email, password} = req.body
-//     const exist = await User.findOne({where: { email }});
-//     if (exist){
-//         return res
-//         .status(409)
-//         .json({error: "alredy exist an accoun with the given email"});
-//     }
-//     try {
-//         const user = await User.create({email, password: hash(password) })
-//         res.json({
-//             user, attributes: {exclude:['password']}
-//         });
-//     } catch (error) {
-//         res.status(400).json({error});
-//     }
- 
-// });
 
-//borrar usuario
-router.delete("/bureaus/:bureau_id/users",checkauth.isAccessTokenValid,async(req, res)=>{
-    const {bureau_id} = req.params;
-    const {user_id} = req.body;
-    const user = await User.findOne({where: { user_id, bureau_id }});
+
+//borrar usuario, comprobando que exista
+router.delete("/:userId",checkauth.isAccessTokenValid,async(req, res)=>{
+    const {userId} = req.params;
+    const user = await User.findOne({where: { id:userId }});
     if (user){
-        if(user.status_id === 1){  
             try {
-                await Invitation.destroy({ where:{user_id }})
-                await User.destroy({ where:{user_id, bureau_id }})
+                await User.destroy({ where:{id: userId }})
                 res.status(204).json({ msg: "user deleted"});   
             } catch (error) {
                 res.status(400).json({error});
-            }
-        }else{
-            try {
-                await Invitation.destroy({ where:{user_id }})
-                const user = await User.update({
-                    status_id: 3,
-                }, 
-                {
-                    where: {
-                        user_id: user_id,
-                        bureau_id: bureau_id
-                    }
-                });
-                res.json({msg: "user inactived"});
-            } catch (error) {        
-            }
-        }
+            }      
     }else{
         res.status(400).json("user don't exist");
     }   
