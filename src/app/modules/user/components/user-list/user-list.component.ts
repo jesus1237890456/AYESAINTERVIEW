@@ -3,6 +3,7 @@ import { UserService } from 'src/app/modules/user/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { User, Users } from '../../interfaces/user.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-list',
@@ -13,7 +14,7 @@ export class UserListComponent implements OnInit {
   //variables del componente
   listOfUsers: User[];
   loading: boolean;
-
+  user_id: number;
   constructor(
     //servicios
     private userService: UserService,
@@ -58,13 +59,14 @@ export class UserListComponent implements OnInit {
   deleteUser(userId: number) {
     //metodo que elimina un usuario y recarga la tabla
     this.loading = true;
-    this.userService.deleteUser(userId).subscribe({
+    this.user_id = parseInt(localStorage.getItem('id_usuario')!);
+    this.userService.deleteUser(userId,this.user_id).subscribe({
       next: () => {
         this.loadUsers();
         this.message.success('Usuario borrado correctamente');
         this.loading = false;
       },
-      error: () => {
+      error: (error:HttpErrorResponse) => {
         this.message.error('Se ha producido un error al borrar el usuario');
         this.loading = false;
       },

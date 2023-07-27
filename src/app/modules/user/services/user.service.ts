@@ -40,16 +40,16 @@ export class UserService {
 
   //metodo que actualiza un usuario
   public updateUser(dataUser: User): Observable<User> {
-    const URL = this.ENDPOINT + this.GETUSER + '/' + dataUser.id;
+    const URL = this.ENDPOINT + this.GETUSER  + dataUser.id;
     const body = dataUser;
 
     return this.http.put<User>(URL, body);
   }
 
   //metodo que borra un usuario
-  public deleteUser(userId: Number): Observable<User> {
-    const URL = this.ENDPOINT + this.GETUSER + '/' + userId;
-
+  public deleteUser(userId: number, id: number): Observable<User> {
+    const URL = this.ENDPOINT + this.GETUSER + userId+"/"+id;
+    const body = id;
     return this.http.delete<User>(URL);
   }
 }

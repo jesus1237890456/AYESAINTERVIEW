@@ -18,7 +18,7 @@ export class AuthenticatorService {
   private Token: string = '';
 
   userLogged: Auth = {
-    userId: 0,
+    id: 0,
     name: '',
     empresa: '',
     userEmail: '',
@@ -44,7 +44,11 @@ export class AuthenticatorService {
     headers.set('content-type', 'application/json');
     headers.set('Access-Control-Allow-Origin', '*');
     const URL = "http://localhost:3000/auth/login"
-    return this.http.post<any>(`${URL}`, { user_email: name, user_password:password },{ headers: headers });
+    return this.http.post<any>(`${URL}`, { dni: name, password:password },{ headers: headers });
+  }
+  public logout(id_usuario: number): Observable<any> {
+    const URL = "http://localhost:3000/auth/logout"
+    return this.http.post<any>(`${URL}`, { id_usuario });
   }
   //metodo del registro
   public register(user: User): Observable<User> {
@@ -58,20 +62,26 @@ export class AuthenticatorService {
 
 
 
-//estos tres son el seteo borrado y obtencion dr datos como el token
+//estos tres son el seteo borrado y obtencion de datos como el token
   public setAuth(data: Auth): void {
+    
     this.Token = data.accessToken;
     localStorage.setItem('token', data.accessToken);
     localStorage.setItem('name_user', data.name);
     localStorage.setItem('bureau_name', data.empresa);
+    localStorage.setItem('id_usuario', data.id.toString());
   }
 
 
-  public borrarToken() {
+  public deleteToken() {
     this.Token = '';
     localStorage.setItem('token', this.Token);
+
+  }
+  public deleteData() {
     localStorage.setItem('name_user', '');
     localStorage.setItem('bureau_name', '');
+    localStorage.setItem('id_usuario', '');
   }
 
   public getToken(): string {

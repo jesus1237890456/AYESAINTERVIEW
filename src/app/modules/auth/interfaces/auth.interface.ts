@@ -1,6 +1,6 @@
 //interfaces para el auth de la aplicacion
 export interface Auth {
-  userId: number;
+  id: number;
   name: string;
   empresa: string;
   userEmail: string;

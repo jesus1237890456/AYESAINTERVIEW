@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from 'src/app/modules/auth/services/authenticator.service';
@@ -31,7 +32,7 @@ export class MainMenuComponent implements OnInit {
     this.name_user =
       localStorage.getItem('name_user')!.toUpperCase();
     this.bureau_name = localStorage.getItem('bureau_name')!.toUpperCase();
-    this.user_id = parseInt(localStorage.getItem('user_id')!);
+    this.user_id = parseInt(localStorage.getItem('id_usuario')!);
   }
   usuarioLogado() {
     if (
@@ -39,14 +40,15 @@ export class MainMenuComponent implements OnInit {
       this.AuthService.getToken() != null
     ) {
       this.email = localStorage.getItem('EMAIL')!;
-      this.user_id = parseInt(localStorage.getItem('user_id')!);
+      this.user_id = parseInt(localStorage.getItem('id_usuario')!);
       return true;
     } else {
       return false;
     }
   }
   cerrarSession() {
-    this.AuthService.borrarToken();
-    this.router.navigate(['/login']);
+        this.AuthService.deleteToken()
+        this.router.navigate(['/login']);
+  
   }
 }

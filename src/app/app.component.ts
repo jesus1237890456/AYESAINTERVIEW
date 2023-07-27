@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from './modules/auth/services/authenticator.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { AuthenticatorService } from './modules/auth/services/authenticator.serv
 })
 export class AppComponent {
   title = 'ayesa';
-
+  user_id: number;
   constructor(
     private router: Router,
     private authenticatorService: AuthenticatorService
@@ -25,6 +26,7 @@ export class AppComponent {
       !this.userLogged() &&
       !this.router.url.includes('/login')
     ) {
+     
       this.router.navigate(['/login']);
     }
   }

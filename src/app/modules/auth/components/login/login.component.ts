@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   passwordControl!: FormControl;
   bShow: boolean = false;
   errorMessage: string = '';
-
+  user_id: number;
   userLogin: UserLoginToken = {
     email: '',
     password: '',
@@ -38,6 +38,19 @@ export class LoginComponent implements OnInit {
       this.userLogged()
     ) {
       this.router.navigate(['/users']);
+    }else{
+      this.user_id = parseInt(localStorage.getItem('id_usuario')!);
+      this.authenticatorService.logout(this.user_id).subscribe({
+        next: (data: any) => {
+          this.authenticatorService.deleteData();
+          this.router.navigate(['/login']);
+        },
+        error: (error: HttpErrorResponse) => {
+  
+        },
+        complete: () => {
+        },
+      });
     }
     //creacion del formulario
     this.emailControl = new FormControl('', [
@@ -49,11 +62,6 @@ export class LoginComponent implements OnInit {
       passwordControl: this.passwordControl,
     });
 
-    if (localStorage.getItem('EMAIL')) {
-      this.loginForm.controls['emailControl'].setValue(
-        localStorage.getItem('EMAIL')
-      );
-    }
   }
   get f() {
     return this.loginForm.controls;
@@ -71,7 +79,8 @@ export class LoginComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.errorMessage = 'Usuario/Password incorrecto';
-        this.authenticatorService.borrarToken();
+        this.authenticatorService.deleteData();
+        this.authenticatorService.deleteToken();
 
         if (error.status === 401) {
           this.errorMessage = 'Usuario/Password incorrecto';

@@ -30,7 +30,8 @@ export class RegisterUserComponent implements OnInit {
 
   ngOnInit(): void {
     //borrado de la sesion y se establecen los formcontrol
-    this.AuthService.borrarToken();
+    this.AuthService.deleteData();
+    this.AuthService.deleteToken();
     this.nameControl = new FormControl('', [
       Validators.required
     ]);
@@ -38,7 +39,10 @@ export class RegisterUserComponent implements OnInit {
       Validators.required
     ]);
     this.dniControl = new FormControl('', [
-      Validators.required
+      Validators.required,
+      Validators.pattern(
+        '(?=.*[A-Z])(?=.*[0-9]).{9,9}'
+      ),
     ]);
     this.emailControl = new FormControl('', [
       Validators.email
@@ -94,7 +98,7 @@ export class RegisterUserComponent implements OnInit {
   esValidado() {
     if (this.passwordControl.value != '') {
       if (
-        this.passwordControl.value === this.passwordControlVal.value
+        this.passwordControl.value === this.passwordControlVal.value && this.activationForm.valid
       ) {
         return false;
       } else {
@@ -117,7 +121,7 @@ export class RegisterUserComponent implements OnInit {
       password: this.activationForm.get('passwordControl')?.value
     };
     this.AuthService.register(user).subscribe({
-      next: (data: User) => {
+      next: (data: any) => {
         this.router.navigate(['/login']);
       },
       error: (error: HttpErrorResponse) => {

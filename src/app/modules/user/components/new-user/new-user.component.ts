@@ -50,13 +50,9 @@ export class NewUserComponent implements OnInit {
       },
       error: (err:HttpErrorResponse) => {
         if (err.status === 409) {
-          this.message.error(
-            'No se ha podido crear el usuario. Ya existe un usuario registrado' +
-
-            {
-              nzDuration: 10000,
-            }
-          );
+          this.message.error('Ya existe este usuario.', {
+            nzDuration: 10000,
+          });
         } else {
           this.message.error('No se ha podido crear el usuario.', {
             nzDuration: 10000,

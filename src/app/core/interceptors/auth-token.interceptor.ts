@@ -10,6 +10,8 @@ import { catchError, finalize, Observable, of, throwError } from 'rxjs';
 import {
   refreshToken,
 } from '../../modules/auth/interfaces/auth.interface';
+import { AuthenticatorService } from 'src/app/modules/auth/services/authenticator.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
@@ -18,7 +20,8 @@ export class AuthTokenInterceptor implements HttpInterceptor {
     accessToken: ''
     };
 
-  constructor(
+  constructor( private authenticatorService: AuthenticatorService,    private router: Router
+
   ) {}
   intercept(
     request: HttpRequest<unknown>,
@@ -40,7 +43,9 @@ export class AuthTokenInterceptor implements HttpInterceptor {
           catchError((err: any) => {
 
             if (err.status === 401) {
-             
+              this.authenticatorService.deleteData();
+              this.authenticatorService.deleteToken();
+              this.router.navigate(['/login']);
             }
 
             return throwError(() => new HttpErrorResponse(err));

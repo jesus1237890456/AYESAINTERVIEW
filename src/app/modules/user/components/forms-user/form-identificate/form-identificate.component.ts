@@ -20,13 +20,15 @@ export class FormIdentificateComponent implements OnInit {
 
   ngOnInit(): void {
     //creacion del formulario
+  
     this.editUserForm = this.parent.form;
     this.editUserForm.addControl(
       'editUserFormIdentificate',
       this.formBuilder.group({
         nombreControl: ['', Validators.required],
         nombreLastControl: ['', Validators.required],
-        dniControl: ['', Validators.required],
+        dniControl: ['', [Validators.required, Validators.pattern(
+          '(?=.*[A-Z])(?=.*[0-9]).{9,9}' ),]],
       })
     );
     if(this.editUser?.id){
