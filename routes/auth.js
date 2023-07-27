@@ -25,7 +25,7 @@ router.post('/logout', async (req, res)=>{
 //registrarse comprueba si existe el usuario, y si no es asi lo crea
 router.post("/register", async(req, res)=>{
     const {mail, password, name, last_name, dni} = req.body
-    const exist = await users.findOne({where: { mail }});
+    const exist = await users.findOne({where: { dni }});
     if (exist){
         return res
         .status(409)
@@ -44,9 +44,9 @@ router.post("/register", async(req, res)=>{
 //loguearse si exite el token lo actualiza y si no lo crea, a parte de comprobar si existe el usuario
 router.post("/login", async(req, res)=>{
     var jwt = require('jsonwebtoken');
-    const {user_email, user_password} = req.body;
+    const {dni, password} = req.body;
             try {
-                const user = await users.findOne({where: { name: user_email, password: user_password }});
+                const user = await users.findOne({where: { dni: dni, password: password }});
                 const user_id = user.id;
                 const tokenn = await Token.findOne({where: { id_usuario: user_id }});
                 if(tokenn){
