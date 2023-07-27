@@ -1,0 +1,59 @@
+.header {
+  background-color: #001529;
+  align-items: center;
+    padding: .7rem 0;
+}
+
+.title-header {
+  color: #fff;
+  text-align: center;
+  font-size: 22px !important;
+  margin: 0;
+}
+
+.bureau-title {
+  vertical-align: middle;
+}
+
+.logo {
+  float: left;
+}
+ul {
+  float: right;
+}
+
+
+
+.sider-menu {
+  height: 100% ;
+  border-right: 0;
+}
+
+.inner-layout {
+  padding: 0 24px 24px;
+}
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color: #001529;
+}
+
+.header-action-menu {
+  position: absolute;
+  right: 0px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+nz-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+  
+}
+
+.dropdown-menu {
+  span {
+    margin-right: 8px;
+  }
+}

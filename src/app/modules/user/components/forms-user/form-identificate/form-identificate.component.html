@@ -1,0 +1,24 @@
+<!-- subformulario para edicion y creacion de usuario donde se muestra el nombre, apellidos y dni -->
+
+<div formGroupName="editUserFormIdentificate">
+
+    <nz-divider nzText="Datos identificativos" nzOrientation="left"></nz-divider>
+    <nz-form-item>
+      <nz-form-label nzRequired>Nombre</nz-form-label>
+      <nz-form-control nzHasFeedback nzValidatingTip="Validating...">
+        <input nz-input formControlName="nombreControl" placeholder="Nombre del usuario" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>Apellido</nz-form-label>
+      <nz-form-control nzHasFeedback nzValidatingTip="Validating...">
+        <input nz-input formControlName="nombreLastControl" placeholder="Apellido del usuario" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+    <nz-form-label nzRequired>Dni</nz-form-label>
+      <nz-form-control nzHasFeedback nzValidatingTip="Validating...">
+        <input nz-input formControlName="dniControl" placeholder="Dni del usuario" />
+      </nz-form-control>
+    </nz-form-item>
+  </div>

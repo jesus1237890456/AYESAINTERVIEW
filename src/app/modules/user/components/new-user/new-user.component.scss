@@ -1,0 +1,28 @@
+
+
+ [nz-button] {
+  margin-right: 8px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+nz-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 50vh;
+ }
+
+.transfer {
+  ::ng-deep {
+
+    @media screen and (max-width: 768px) {
+      nz-transfer {
+        flex-wrap: wrap;
+      }
+    }
+
+    .ant-transfer-customize-list .ant-transfer-list {
+      max-width: 100%;
+      width: 15rem;
+    }
+  }
+}

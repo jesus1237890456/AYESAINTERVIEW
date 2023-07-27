@@ -1,0 +1,155 @@
+<!-- componente del registro del usuario que es un formulario con sus distintos campos -->
+<div id="container">
+  <div id="container_form">
+    <form
+      nz-form
+      [formGroup]="activationForm"
+      class="login-form"
+    >
+      <nz-form-item>
+        <img id="image" src="https://www.drupal.org/files/logo_ayesa-700x300.png" />
+        <h3 style="color: white" class="pt15">
+          (La contraseña debe tener minimo 8 caracteres,caracter especial y número)
+        </h3>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <label>Nombre</label>
+          <nz-input-group nzPrefixIcon="user">
+            <input
+              type="text"
+              id="usuario"
+              nz-input
+              formControlName="nameControl"
+              placeholder="Nombre"
+              required="required"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <label>Apellidos</label>
+          <nz-input-group nzPrefixIcon="user">
+            <input
+              type="text"
+              id="apellidos"
+              nz-input
+              formControlName="lastnameControl"
+              placeholder="Apellidos"
+              required="required"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <label>Dni</label>
+          <nz-input-group nzPrefixIcon="credit-card">
+            <input
+              type="text"
+              id="dni"
+              nz-input
+              formControlName="dniControl"
+              placeholder="Dni"
+              required="required"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <label>Email</label>
+          <nz-input-group nzPrefixIcon="mail">
+            <input
+              type="text"
+              id="email"
+              nz-input
+              formControlName="emailControl"
+              placeholder="Email"
+              required="required"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+    
+      <nz-form-item>
+        <nz-form-control>
+          <label>Contraseña</label>
+          <!-- este es mas especial porque muestra la contraseña y la oculta según el boton que es un ojo -->
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              type="password"
+              id="password"
+              nz-input
+              formControlName="passwordControl"
+              placeholder="Password"
+              required="required"
+            />
+            <nz-input-group
+              id="botone"
+              nzPrefixIcon="eye-invisible"
+              *ngIf="!bShow"
+              (click)="show()"
+            ></nz-input-group>
+            <nz-input-group
+              id="botone"
+              nzPrefixIcon="eye"
+              *ngIf="bShow"
+              (click)="show()"
+            ></nz-input-group>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <label>Repite contraseña</label>
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              type="password"
+              id="passwordval"
+              nz-input
+              formControlName="passwordControlVal"
+              placeholder="Password"
+              required="required"
+            />
+            <nz-input-group
+              id="botone"
+              nzPrefixIcon="eye-invisible"
+              *ngIf="!bShowVal"
+              (click)="showVal()"
+            ></nz-input-group>
+            <nz-input-group
+              id="botone"
+              nzPrefixIcon="eye"
+              *ngIf="bShowVal"
+              (click)="showVal()"
+            ></nz-input-group>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+
+
+      <button
+        nz-button
+        class="login-form-button login-form-margin p15"
+        [nzType]="'primary'"
+        [disabled]="esValidado()"
+        nzDanger="true"
+        (click)="register()"
+      >
+        Registrese
+      </button>
+      <button
+      nz-button
+      class="login-form-button login-form-margin"
+      [nzType]="'primary'"
+      (click)="return()"
+    >
+      Volver
+    </button>
+    </form>
+  </div>
+</div>

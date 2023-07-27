@@ -1,0 +1,55 @@
+{
+  "name": "afilia3",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start:local": "ng serve --configuration local",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^16.0.0",
+    "@angular/common": "^16.0.0",
+    "@angular/compiler": "^16.0.0",
+    "@angular/core": "^16.0.0",
+    "@angular/forms": "^16.0.0",
+    "@angular/platform-browser": "^16.0.0",
+    "@angular/platform-browser-dynamic": "^16.0.0",
+    "@angular/router": "^16.0.0",
+    "@popperjs/core": "^2.11.6",
+    "@swimlane/ngx-charts": "^20.3.1",
+    "angular.less": "^0.0.3",
+    "chart.js": "^4.2.1",
+    "jquery": "^3.6.3",
+    "ng-zorro-antd": "^14.3.0",
+    "nif-dni-nie-cif-validation": "^1.0.10",
+    "rxjs": "~7.5.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^16.0.0",
+    "@angular/cli": "~16.0.0",
+    "@angular/compiler-cli": "^16.0.0",
+    "@types/d3": "^7.4.0",
+    "@types/d3-shape": "^3.1.1",
+    "@types/jasmine": "~4.0.0",
+    "@types/jquery": "^3.5.16",
+    "file-loader": "^6.2.0",
+    "jasmine-core": "~4.3.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.0.0",
+    "typescript": "~4.9.5",
+    "url-loader": "^4.1.1"
+  },
+  "peerDependencies": {
+    "@types/d3": "^7.4.0",
+    "@types/d3-shape": "^3.1.1"
+  }
+}

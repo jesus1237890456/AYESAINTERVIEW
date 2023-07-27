@@ -1,0 +1,108 @@
+.footer .highlight {
+  background-color: hsla(0,0%,100%,.5);
+  border-bottom: 1px solid #e8eaed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: Open Sans,sans-serif;
+  font-weight: 400;
+}
+
+.footer .company, .footer .footer-nav, .footer .highlight {
+  padding: 0.75rem 1.5rem;
+}
+.row {
+  margin-right:  calc(0 * var(--bs-gutter-x)) !important;
+}
+.footer .highlight p {
+  font-weight: 300;
+  font-size: .85rem;
+  color: #3e3d40;
+}
+
+
+.footer svg {
+  width: 14px;
+  height: 14px;
+}
+.icon {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+
+.footer .footer-nav h4 {
+  text-transform: uppercase;
+  font-size: .75rem;
+  color: #262527;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.footer .footer-nav a, .footer .footer-nav p {
+  font-size: .85rem;
+  color: #6a686e;
+}
+
+p {
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+.footer .btn-link, .footer a {
+  color: #262527;
+}
+.footer .social {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+}
+
+.btn {
+  font-size: .875rem;
+  line-height: 1;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  letter-spacing: .33px;
+}
+.footer .company {
+  border-top: 1px solid #e8eaed;
+  padding-top: 0.75rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #a6acbe;
+}

@@ -1,0 +1,49 @@
+nz-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+}
+
+.status-inactive {
+  color: #e15554;
+}
+
+.status-active {
+  color: #00a676;
+}
+button{
+  border-radius: 20px;
+}
+
+.status-guest {
+  color: #f4ac45;
+}
+
+.status-inactive,
+.status-active,
+.status-guest {
+  font-size: 24px;
+}
+
+.search-box {
+  padding: 8px;
+}
+
+.search-box input {
+  width: 188px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.search-box button {
+  width: 90px;
+}
+
+.search-button {
+  margin-right: 8px;
+}
+
+[nz-button] {
+  margin-right: 8px;
+  margin-bottom: 12px;
+}

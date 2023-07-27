@@ -1,0 +1,39 @@
+<!-- componente de edicion de usuario que envia informacion del usuario a subformularios  -->
+<nz-layout>
+  <nz-breadcrumb class="breadcrumb" nzSeparator=">">
+    <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+    <nz-breadcrumb-item> Usuarios</nz-breadcrumb-item>
+    <nz-breadcrumb-item> Editar Usuario</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <app-skeleton-table *ngIf="!activateForm"></app-skeleton-table>
+  <nz-content *ngIf="activateForm">
+
+    <form nz-form [formGroup]="editUserForm" nzLayout="vertical">
+      <div nz-row>
+        <div nz-col nzFlex="1">
+          <h2 nz-typography>Editar Usuario</h2>
+        </div>
+      </div>
+      <div>
+        <div nz-row [nzGutter]="[16]">
+          <div nz-col nzFlex="2">
+            <app-form-identificate [editUser]="editUser"></app-form-identificate>
+          </div>
+          <div nz-col nzFlex="2">
+            <app-form-contact [editUser]="editUser"></app-form-contact>
+          </div>
+        </div>
+      </div>
+     
+      <div nz-row>
+        <div nz-col nzSpan="5" nzOffset="19">
+          <button nz-button nzSize="large" style="float: right;" nzType="primary" [disabled]="!editUserForm.valid"
+            (click)="onSendEditUser()">
+            <i nz-icon nzType="save"></i>Guardar</button>
+          <button nz-button nzSize="large" style="float: right;" nzType="primary" (click)="clickVolver()">
+            <i nz-icon nzType="rollback"></i>Volver</button>
+        </div>
+      </div>
+    </form>
+  </nz-content>
+</nz-layout>

@@ -1,0 +1,20 @@
+<!-- layout principal de la pagina que muestra una cosa u otra si esta o no logado -->
+<nz-layout *ngIf="userLogged()" class="principal" class="altoAutomatico">
+  <app-main-menu *ngIf="userLogged()"></app-main-menu>
+  <nz-layout *ngIf="userLogged() ">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+      <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"></i>
+      <app-left-menu [isCollapsed]="isCollapsed"></app-left-menu>
+    </nz-sider>
+    <nz-layout>
+      <nz-content *ngIf="userLogged()">
+        <router-outlet></router-outlet>
+      </nz-content>
+      <nz-footer><app-footer *ngIf="userLogged()"></app-footer></nz-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>
+<div *ngIf="!userLogged()">
+  <router-outlet></router-outlet>
+</div>

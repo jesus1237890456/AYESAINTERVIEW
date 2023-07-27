@@ -1,0 +1,38 @@
+<!-- componente de la cabecera que muestra una imagen, el nombre de la empresa(estatico en este caso) y el nombre del usuario logado  -->
+<div nz-row class="header">
+  <div nz-col nzSpan="8" class="logo">
+    <img
+      src="https://www.drupal.org/files/logo_ayesa-700x300.png"
+      height=""
+      alt=""
+      loading="lazy"
+      class="ml30"
+      style="width: 10rem;"
+    />
+  </div>
+  <div nz-col nzSpan="8">
+    <!-- nombre de la empresa -->
+    <h1 class="title-header">{{ bureau_name }}</h1>
+  </div>
+  <!-- componente de ngzorro para la muestra de un icono de usuario más despegable -->
+  <div nz-col nzSpan="8" class="header-action-menu mr30">
+    <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
+      <li nzPlacement="bottomCenter" nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" nz-menu-item
+        style="background-color: #001529;color: white;">
+        <nz-avatar
+          [nzGap]="gap"
+          [ngStyle]="{ 'background-color': color }"
+          [nzText]="text"
+          nzSize="large"
+          style="vertical-align: middle; color: black; margin-right: 10px;"
+        ></nz-avatar> {{name_user}} <span nz-icon nzType="down"></span>
+      </li>
+      <nz-dropdown-menu #userMenu="nzDropdownMenu">
+        <ul nz-menu nzSelectable class="dropdown-menu">
+          <li nz-menu-item nzDanger (click)="cerrarSession()" routerLink="/login"> <span nz-icon nzType="logout"
+              nzTheme="outline"></span> Cerrar sesión</li>
+        </ul>
+      </nz-dropdown-menu>
+    </ul>
+  </div>
+</div>

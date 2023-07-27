@@ -1,0 +1,74 @@
+<!-- componente de login, es un formulario parecido al de registro -->
+<div id="container">
+  <div id="container_form">
+    <form
+      nz-form
+      [formGroup]="loginForm"
+      class="login-form"
+      (ngSubmit)="onLogin()"
+    >
+      <nz-form-item>
+        <img id="image" src="https://www.drupal.org/files/logo_ayesa-700x300.png" />
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <label>Nombre</label>
+          <nz-input-group nzPrefixIcon="user">
+            <input
+              type="text"
+              nz-input
+              formControlName="emailControl"
+              placeholder="Username"
+              
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <label>Contraseña</label>
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              type="password"
+              id="password"
+              nz-input
+              formControlName="passwordControl"
+              placeholder="Password"
+              required="required"
+            />
+            <nz-input-group
+              id="botone"
+              nzPrefixIcon="eye-invisible"
+              *ngIf="!bShow"
+              (click)="show()"
+            ></nz-input-group>
+            <nz-input-group
+              id="botone"
+              nzPrefixIcon="eye"
+              *ngIf="bShow"
+              (click)="show()"
+            ></nz-input-group>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-alert
+        *ngIf="errorMessage"
+        nzType="error"
+        [nzMessage]="errorMessage"
+        nzShowIcon
+        class="pb15"
+      ></nz-alert>
+      <a routerLink="/register">Registrarse</a>
+      <button
+        nzDanger="true"
+        nzSpaceItem
+        nz-button
+        class="login-form-button login-form-margin"
+        [nzType]="'primary'"
+        [disabled]="this.loginForm.status === 'INVALID'"
+      >
+        Login
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+.error {
+  color: red;
+  float: left;
+  margin-bottom: 10px;
+}
+label {
+  color: #ffffff;
+}
+#image {
+  background-image: radial-gradient(
+    farthest-side at bottom center,
+    #e8d9e3,
+    transparent
+  );
+  width: 8rem;
+  margin-left: 5.5rem
+}
+.form-check-input {
+  float: left;
+}
+#container_form {
+  display: flex;
+  padding: 40px;
+  margin: auto;
+  width: 390px;
+  background-color: rgba(0, 0, 0, 0.28);
+}
+#container {
+  display: flex;
+  height: 60rem;
+  background-image: url("https://aviation.informaexhibitions.com/wp-content/uploads/2018/08/connect-texture.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.login-form {
+  max-width: 300px;
+}
+nz-form-item.ant-form-item {
+  margin-top: 20px;
+}
+
+.login-form-margin {
+  margin-bottom: 16px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+  margin-top: 20px;
+}
+#boton {
+  background-color: #ffffff;
+  border: none !important;
+}
+
+#botone {
+  width: 39px;
+  height: 25px;
+  margin-left: 40px;
+  border-radius: 100px;
+  border: none !important;
+}

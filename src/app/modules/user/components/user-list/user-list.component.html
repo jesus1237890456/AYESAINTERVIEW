@@ -1,0 +1,102 @@
+<!-- componente que muestra una tabla con los datos de usuario y con botones de accion que redirigi a crear usuario, editar, o elimina uno -->
+<nz-layout>
+  <nz-breadcrumb class="breadcrumb" nzSeparator=">">
+    <nz-breadcrumb-item>Home </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Usuarios</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-content>
+    <div nz-row nzGutter="16">
+      <div nz-col nzSpan="20">
+        <h2>Usuarios</h2>
+      </div>
+      <div nz-col nzSpan="2">
+        <button
+          title="Nuevo Usuario"
+          nz-button
+          nzType="primary"
+          routerLink="newuser"
+        >
+          <span nz-icon nzType="plus-circle" nzTheme="outline"></span> Nuevo
+          usuario
+        </button>
+      </div>
+    </div>
+    <div nz-row>
+      <div nzFlex="1">
+        <nz-content>
+          <nz-table
+            #nzTable
+            #filterTable
+            #sortTable
+            [nzLoading]="loading"
+            [nzData]="listOfUsers"
+            nzTableLayout="fixed"
+            nzSize="small"
+          >
+            <thead>
+              <tr>
+                <th
+                 
+               
+                  nzWidth="100px"
+                >
+                  Nombre
+                </th>
+                <th
+                  nzWidth="150px"
+                >
+                  Apellidos
+                </th>
+                <th
+                  nzWidth="100px"
+                >
+                  Dni
+                </th>
+                <th
+                  nzWidth="200px"
+                >
+                  Email
+                </th>
+                <th
+                nzWidth="150px"
+              >
+                Acciones
+              </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of filterTable.data">
+              
+                <td>{{ data.name }}</td>
+                <td>{{ data.last_name }}</td>
+                <td>{{ data.dni }}</td>
+                <td>{{ data.mail }}</td>
+                <td>      
+                <button
+                  title="Editar Usuario"
+                  nz-button
+                  (click)="editUser(data.id!)"
+                >
+                  <span nz-icon nzType="edit" nzTheme="outline"></span></button>
+                  <button
+                  title="Borrar Usuario"
+                  nz-button
+                  (click)="deleteUser(data.id!)"
+                >
+                  <span nz-icon nzType="delete" nzTheme="outline"></span></button>
+                  <button
+                  title="Detalle Usuario"
+                  nz-button
+                  (click)="visualUser(data.id!)"
+                >
+                  <span nz-icon nzType="eye" nzTheme="outline"></span></button>
+                </td>
+               
+              </tr>
+            </tbody>
+          </nz-table>
+        </nz-content>
+      </div>
+    </div>
+  </nz-content>
+</nz-layout>

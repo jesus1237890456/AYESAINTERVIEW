@@ -1,0 +1,11 @@
+<!-- subformulario para edicion y creacion de usuario donde se muestra el email -->
+<div formGroupName="editUserFormContact">
+  <nz-divider nzText="Datos de contacto" nzOrientation="left"></nz-divider>
+    <nz-form-item>
+      <nz-form-label nzRequired>Email</nz-form-label>
+      <nz-form-control nzHasFeedback nzValidatingTip="Validating...">
+        <input nz-input type="email"  placeholder="Email del usuario" formControlName="emailControl"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+      </nz-form-control>
+    </nz-form-item>
+  </div>

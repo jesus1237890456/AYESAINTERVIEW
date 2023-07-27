@@ -1,0 +1,11 @@
+<!-- componente del menu lateral, que colapsa y viaja por los componentes -->
+<ul [ngClass]="{ show: !isCollapsed, hidden: isCollapsed }" nz-menu nzTheme="dark" nzMode="inline">
+  <ul nz-menu nzMode="inline" nzTheme="dark" [nzInlineCollapsed]="isCollapsed"></ul>
+  <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzTitle="Usuarios" routerLink="/users"
+    routerLinkActive="ant-menu-item-selected">
+    <span nz-icon nzType="team"></span>
+    <ul>
+      <li class="opcionesMenu">Usuarios</li>
+    </ul>
+  </li>
+</ul>

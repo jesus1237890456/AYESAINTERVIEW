@@ -1,0 +1,38 @@
+<!-- componente de creacion de usuario que envia informacion del usuario a subformularios  -->
+
+<nz-layout>
+  <nz-breadcrumb class="breadcrumb" nzSeparator=">">
+    <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+    <nz-breadcrumb-item> Usuarios</nz-breadcrumb-item>
+    <nz-breadcrumb-item> Alta</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-content>
+    <form nz-form [formGroup]="newUserForm" nzLayout="vertical">
+      <div nz-row>
+        <div nz-col nzFlex="1">
+          <h2 nz-typography>Nuevo Usuario</h2>
+        </div>
+      </div>
+      <div>
+        <div nz-row [nzGutter]="[16]">
+          <div nz-col nzFlex="2">
+            <app-form-identificate></app-form-identificate>
+          </div>
+          <div nz-col nzFlex="2">
+            <app-form-contact></app-form-contact>
+          </div>
+        </div>
+      </div>
+      
+      <div nz-row>
+        <div nz-col nzSpan="5" nzOffset="19">
+          <button nz-button nzSize="large" style="float: right;" nzType="primary" [disabled]="!newUserForm.valid"
+            (click)="onSendNewUser()">
+            <i nz-icon nzType="save"></i>Guardar</button>
+          <button nz-button nzSize="large" style="float: right;" nzType="primary" (click)="clickVolver()">
+            <i nz-icon nzType="rollback"></i>Volver</button>
+        </div>
+      </div>
+      </form>
+  </nz-content>
+</nz-layout>
