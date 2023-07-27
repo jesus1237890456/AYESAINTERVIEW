@@ -67,8 +67,13 @@ export class UserListComponent implements OnInit {
         this.loading = false;
       },
       error: (error:HttpErrorResponse) => {
-        this.message.error('Se ha producido un error al borrar el usuario');
-        this.loading = false;
+        if(error.status===403){
+          this.message.error('Usuario actual logado');
+          this.loading = false;
+        }else{
+          this.message.error('Se ha producido un error al borrar el usuario');
+          this.loading = false;
+        }
       },
     });
   }

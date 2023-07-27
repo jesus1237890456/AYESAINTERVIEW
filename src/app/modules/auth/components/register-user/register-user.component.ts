@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import $ from 'jquery';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-register-user',
@@ -25,7 +26,9 @@ export class RegisterUserComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private AuthService: AuthenticatorService
+    private AuthService: AuthenticatorService,
+    private message: NzMessageService
+
   ) {}
 
   ngOnInit(): void {
@@ -125,6 +128,9 @@ export class RegisterUserComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       error: (error: HttpErrorResponse) => {
+        this.message.error('Error al crear sesion.', {
+          nzDuration: 1000,
+        });
 
       },
       complete: () => {
