@@ -8,7 +8,7 @@ import { AuthenticatorService } from './modules/auth/services/authenticator.serv
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'afilia3';
+  title = 'ayesa';
 
   constructor(
     private router: Router,

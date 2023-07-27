@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "afilia3": {
+    "ayesa": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/afilia3",
+            "outputPath": "dist/ayesa",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -86,13 +86,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "afilia3:build:production"
+              "browserTarget": "ayesa:build:production"
             },
             "development": {
-              "browserTarget": "afilia3:build:development"
+              "browserTarget": "ayesa:build:development"
             },
             "local": {
-              "browserTarget": "afilia3:build:local"
+              "browserTarget": "ayesa:build:local"
             }
           },
           "defaultConfiguration": "local"
@@ -100,7 +100,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "afilia3:build"
+            "browserTarget": "ayesa:build"
           }
         },
         "test": {
