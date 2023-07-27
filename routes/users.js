@@ -39,7 +39,12 @@ router.post('/',checkauth.isAccessTokenValid, async(req, res)=>{
 router.put('/:userId',checkauth.isAccessTokenValid, async(req, res)=>{
     const{name,last_name,mail,dni} = req.body
     const {userId} = req.params
-   
+    const exist = await User.findOne({where: { dni }});
+    if (exist){
+        return res
+        .status(409)
+        .json({error: "alredy exist an accoun with the given email"});
+    }
     try {
         const user = await User.update({
             name: name,
@@ -83,7 +88,7 @@ router.delete("/:userId/:id",checkauth.isAccessTokenValid,async(req, res)=>{
     const user = await User.findOne({where: { id:userId }});
     const token = await Token.findOne({where: { id_usuario:userId }});
    if(id === userId){
-    res.status(403).json("user with session open");
+    res.status(403).json({error:"user with session open"});
    
    }else{
     if (user){
