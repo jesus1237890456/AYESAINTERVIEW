@@ -6,3 +6,4 @@
 5- instalar mysql workbench e importar sql
 6- arrancar tanto back como front con npm start
 7-el sql esta en la parte back
+8-para descargar los repositorios, en code y descargar zip
